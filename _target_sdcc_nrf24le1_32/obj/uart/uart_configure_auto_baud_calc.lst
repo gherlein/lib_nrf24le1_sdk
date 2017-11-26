@@ -1,0 +1,1005 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.1.0 #7066 (Nov 22 2011) (Linux)
+                              4 ; This file was generated Fri Jul 13 20:24:00 2012
+                              5 ;--------------------------------------------------------
+                              6 	.module uart_configure_auto_baud_calc
+                              7 	.optsdcc -mmcs51 --model-large
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl _uart_calc_actual_baud_rate_from_th1
+                             13 	.globl _uart_calc_th1_value
+                             14 	.globl _uart_calc_actual_baud_rate_from_s0rel
+                             15 	.globl _uart_calc_s0rel_value
+                             16 	.globl _uart_configure_manual_baud_calc
+                             17 	.globl _FSR_SB_ENDBG
+                             18 	.globl _FSR_SB_STP
+                             19 	.globl _FSR_SB_WEN
+                             20 	.globl _FSR_SB_RDYN
+                             21 	.globl _FSR_SB_INFEN
+                             22 	.globl _FSR_SB_RDISMB
+                             23 	.globl _RFCON_SB_RFCKEN
+                             24 	.globl _RFCON_SB_RFCSN
+                             25 	.globl _RFCON_SB_RFCE
+                             26 	.globl _ADCON_SB_BD
+                             27 	.globl _PSW_SB_P
+                             28 	.globl _PSW_SB_F1
+                             29 	.globl _PSW_SB_OV
+                             30 	.globl _PSW_SB_RS0
+                             31 	.globl _PSW_SB_RS1
+                             32 	.globl _PSW_SB_F0
+                             33 	.globl _PSW_SB_AC
+                             34 	.globl _PSW_SB_CY
+                             35 	.globl _T2CON_SB_T2PS
+                             36 	.globl _T2CON_SB_I3FR
+                             37 	.globl _T2CON_SB_I2FR
+                             38 	.globl _T2CON_SB_T2R1
+                             39 	.globl _T2CON_SB_T2R0
+                             40 	.globl _T2CON_SB_T2CM
+                             41 	.globl _T2CON_SB_T2I1
+                             42 	.globl _T2CON_SB_T2I0
+                             43 	.globl _IRCON_SB_EXF2
+                             44 	.globl _IRCON_SB_TF2
+                             45 	.globl _IRCON_SB_TICK
+                             46 	.globl _IRCON_SB_MISCIRQ
+                             47 	.globl _IRCON_SB_WUOPIRQ
+                             48 	.globl _IRCON_SB_SPI_2WIRE
+                             49 	.globl _IRCON_SB_RFIRQ
+                             50 	.globl _IRCON_SB_RFRDY
+                             51 	.globl _IEN1_SB_T2EXTRLD
+                             52 	.globl _IEN1_SB_TICK
+                             53 	.globl _IEN1_SB_MISCIRQ
+                             54 	.globl _IEN1_SB_WUOPIRQ
+                             55 	.globl _IEN1_SB_SPI_2WIRE
+                             56 	.globl _IEN1_SB_RFIRQ
+                             57 	.globl _IEN1_SB_RFRDY
+                             58 	.globl _P3_SB_D7
+                             59 	.globl _P3_SB_D6
+                             60 	.globl _P3_SB_D5
+                             61 	.globl _P3_SB_D4
+                             62 	.globl _P3_SB_D3
+                             63 	.globl _P3_SB_D2
+                             64 	.globl _P3_SB_D1
+                             65 	.globl _P3_SB_D0
+                             66 	.globl _IEN0_SB_GLOBAL
+                             67 	.globl _IEN0_SB_T2
+                             68 	.globl _IEN0_SB_UART
+                             69 	.globl _IEN0_SB_T1
+                             70 	.globl _IEN0_SB_POFIRQ
+                             71 	.globl _IEN0_SB_T0
+                             72 	.globl _IEN0_SB_IFP
+                             73 	.globl _P2_SB_D7
+                             74 	.globl _P2_SB_D6
+                             75 	.globl _P2_SB_D5
+                             76 	.globl _P2_SB_D4
+                             77 	.globl _P2_SB_D3
+                             78 	.globl _P2_SB_D2
+                             79 	.globl _P2_SB_D1
+                             80 	.globl _P2_SB_D0
+                             81 	.globl _S0CON_SB_SM0
+                             82 	.globl _S0CON_SB_SM1
+                             83 	.globl _S0CON_SB_SM20
+                             84 	.globl _S0CON_SB_REN0
+                             85 	.globl _S0CON_SB_TB80
+                             86 	.globl _S0CON_SB_RB80
+                             87 	.globl _S0CON_SB_TI0
+                             88 	.globl _S0CON_SB_RI0
+                             89 	.globl _P1_SB_D7
+                             90 	.globl _P1_SB_D6
+                             91 	.globl _P1_SB_D5
+                             92 	.globl _P1_SB_D4
+                             93 	.globl _P1_SB_D3
+                             94 	.globl _P1_SB_D2
+                             95 	.globl _P1_SB_D1
+                             96 	.globl _P1_SB_D0
+                             97 	.globl _TCON_SB_TF1
+                             98 	.globl _TCON_SB_TR1
+                             99 	.globl _TCON_SB_TF0
+                            100 	.globl _TCON_SB_TR0
+                            101 	.globl _TCON_SB_IE1
+                            102 	.globl _TCON_SB_IT1
+                            103 	.globl _TCON_SB_IE0
+                            104 	.globl _TCON_SB_IT0
+                            105 	.globl _P0_SB_D7
+                            106 	.globl _P0_SB_D6
+                            107 	.globl _P0_SB_D5
+                            108 	.globl _P0_SB_D4
+                            109 	.globl _P0_SB_D3
+                            110 	.globl _P0_SB_D2
+                            111 	.globl _P0_SB_D1
+                            112 	.globl _P0_SB_D0
+                            113 	.globl _ADCDAT
+                            114 	.globl _S0REL
+                            115 	.globl _T2
+                            116 	.globl _T1
+                            117 	.globl _T0
+                            118 	.globl _CRC
+                            119 	.globl _CC3
+                            120 	.globl _CC2
+                            121 	.globl _CC1
+                            122 	.globl _SPIMDAT
+                            123 	.globl _SPIMSTAT
+                            124 	.globl _SPIMCON1
+                            125 	.globl _SPIMCON0
+                            126 	.globl _FCR
+                            127 	.globl _FPCR
+                            128 	.globl _FSR
+                            129 	.globl _B
+                            130 	.globl _ARCON
+                            131 	.globl _MD5
+                            132 	.globl _MD4
+                            133 	.globl _MD3
+                            134 	.globl _MD2
+                            135 	.globl _MD1
+                            136 	.globl _MD0
+                            137 	.globl _RFCON
+                            138 	.globl _SPIRDAT
+                            139 	.globl _SPIRSTAT
+                            140 	.globl _SPIRCON1
+                            141 	.globl _SPIRCON0
+                            142 	.globl _W2CON0
+                            143 	.globl _W2CON1
+                            144 	.globl _ACC
+                            145 	.globl _CCPDATO
+                            146 	.globl _CCPDATIB
+                            147 	.globl _CCPDATIA
+                            148 	.globl _POFCON
+                            149 	.globl _COMPCON
+                            150 	.globl _W2DAT
+                            151 	.globl _W2SADR
+                            152 	.globl _ADCON
+                            153 	.globl _RNGDAT
+                            154 	.globl _RNGCTL
+                            155 	.globl _ADCDATL
+                            156 	.globl _ADCDATH
+                            157 	.globl _ADCCON1
+                            158 	.globl _ADCCON2
+                            159 	.globl _ADCCON3
+                            160 	.globl _PSW
+                            161 	.globl _WUOPC0
+                            162 	.globl _WUOPC1
+                            163 	.globl _TH2
+                            164 	.globl _TL2
+                            165 	.globl _CRCH
+                            166 	.globl _CRCL
+                            167 	.globl __XPAGE
+                            168 	.globl _MPAGE
+                            169 	.globl _T2CON
+                            170 	.globl _CCH3
+                            171 	.globl _CCL3
+                            172 	.globl _CCH2
+                            173 	.globl _CCL2
+                            174 	.globl _CCH1
+                            175 	.globl _CCL1
+                            176 	.globl _CCEN
+                            177 	.globl _IRCON
+                            178 	.globl _SPISDAT
+                            179 	.globl _SPISSTAT
+                            180 	.globl _SPISCON1
+                            181 	.globl _SPISCON0
+                            182 	.globl _S0RELH
+                            183 	.globl _IP1
+                            184 	.globl _IEN1
+                            185 	.globl _SPISRDSZ
+                            186 	.globl _RTC2CPT00
+                            187 	.globl _RTC2CMP1
+                            188 	.globl _RTC2CMP0
+                            189 	.globl _RTC2CON
+                            190 	.globl _PWMCON
+                            191 	.globl _RSTREAS
+                            192 	.globl _P3
+                            193 	.globl _WDSV
+                            194 	.globl _OPMCON
+                            195 	.globl _CLKLFCTRL
+                            196 	.globl _RTC2CPT10
+                            197 	.globl _RTC2CPT01
+                            198 	.globl _S0RELL
+                            199 	.globl _IP0
+                            200 	.globl _IEN0
+                            201 	.globl _MEMCON
+                            202 	.globl _INTEXP
+                            203 	.globl _WUCON
+                            204 	.globl _PWRDWN
+                            205 	.globl _CLKCTRL
+                            206 	.globl _PWMDC1
+                            207 	.globl _PWMDC0
+                            208 	.globl _P2
+                            209 	.globl _P1CON
+                            210 	.globl _P0CON
+                            211 	.globl _S0BUF
+                            212 	.globl _S0CON
+                            213 	.globl _P2CON
+                            214 	.globl _P3DIR
+                            215 	.globl _P2DIR
+                            216 	.globl _P1DIR
+                            217 	.globl _P0DIR
+                            218 	.globl _DPS
+                            219 	.globl _P1
+                            220 	.globl _P3CON
+                            221 	.globl _TH1
+                            222 	.globl _TH0
+                            223 	.globl _TL1
+                            224 	.globl _TL0
+                            225 	.globl _TMOD
+                            226 	.globl _TCON
+                            227 	.globl _PCON
+                            228 	.globl _DPH1
+                            229 	.globl _DPL1
+                            230 	.globl _DPH
+                            231 	.globl _DPL
+                            232 	.globl _SP
+                            233 	.globl _P0
+                            234 	.globl _uart_configure_auto_baud_calc_PARM_2
+                            235 	.globl _uart_configure_auto_baud_calc
+                            236 ;--------------------------------------------------------
+                            237 ; special function registers
+                            238 ;--------------------------------------------------------
+                            239 	.area RSEG    (ABS,DATA)
+   0000                     240 	.org 0x0000
+                    0080    241 _P0	=	0x0080
+                    0081    242 _SP	=	0x0081
+                    0082    243 _DPL	=	0x0082
+                    0083    244 _DPH	=	0x0083
+                    0084    245 _DPL1	=	0x0084
+                    0085    246 _DPH1	=	0x0085
+                    0087    247 _PCON	=	0x0087
+                    0088    248 _TCON	=	0x0088
+                    0089    249 _TMOD	=	0x0089
+                    008A    250 _TL0	=	0x008a
+                    008B    251 _TL1	=	0x008b
+                    008C    252 _TH0	=	0x008c
+                    008D    253 _TH1	=	0x008d
+                    008F    254 _P3CON	=	0x008f
+                    0090    255 _P1	=	0x0090
+                    0092    256 _DPS	=	0x0092
+                    0093    257 _P0DIR	=	0x0093
+                    0094    258 _P1DIR	=	0x0094
+                    0095    259 _P2DIR	=	0x0095
+                    0096    260 _P3DIR	=	0x0096
+                    0097    261 _P2CON	=	0x0097
+                    0098    262 _S0CON	=	0x0098
+                    0099    263 _S0BUF	=	0x0099
+                    009E    264 _P0CON	=	0x009e
+                    009F    265 _P1CON	=	0x009f
+                    00A0    266 _P2	=	0x00a0
+                    00A1    267 _PWMDC0	=	0x00a1
+                    00A2    268 _PWMDC1	=	0x00a2
+                    00A3    269 _CLKCTRL	=	0x00a3
+                    00A4    270 _PWRDWN	=	0x00a4
+                    00A5    271 _WUCON	=	0x00a5
+                    00A6    272 _INTEXP	=	0x00a6
+                    00A7    273 _MEMCON	=	0x00a7
+                    00A8    274 _IEN0	=	0x00a8
+                    00A9    275 _IP0	=	0x00a9
+                    00AA    276 _S0RELL	=	0x00aa
+                    00AB    277 _RTC2CPT01	=	0x00ab
+                    00AC    278 _RTC2CPT10	=	0x00ac
+                    00AD    279 _CLKLFCTRL	=	0x00ad
+                    00AE    280 _OPMCON	=	0x00ae
+                    00AF    281 _WDSV	=	0x00af
+                    00B0    282 _P3	=	0x00b0
+                    00B1    283 _RSTREAS	=	0x00b1
+                    00B2    284 _PWMCON	=	0x00b2
+                    00B3    285 _RTC2CON	=	0x00b3
+                    00B4    286 _RTC2CMP0	=	0x00b4
+                    00B5    287 _RTC2CMP1	=	0x00b5
+                    00B6    288 _RTC2CPT00	=	0x00b6
+                    00B7    289 _SPISRDSZ	=	0x00b7
+                    00B8    290 _IEN1	=	0x00b8
+                    00B9    291 _IP1	=	0x00b9
+                    00BA    292 _S0RELH	=	0x00ba
+                    00BC    293 _SPISCON0	=	0x00bc
+                    00BD    294 _SPISCON1	=	0x00bd
+                    00BE    295 _SPISSTAT	=	0x00be
+                    00BF    296 _SPISDAT	=	0x00bf
+                    00C0    297 _IRCON	=	0x00c0
+                    00C1    298 _CCEN	=	0x00c1
+                    00C2    299 _CCL1	=	0x00c2
+                    00C3    300 _CCH1	=	0x00c3
+                    00C4    301 _CCL2	=	0x00c4
+                    00C5    302 _CCH2	=	0x00c5
+                    00C6    303 _CCL3	=	0x00c6
+                    00C7    304 _CCH3	=	0x00c7
+                    00C8    305 _T2CON	=	0x00c8
+                    00C9    306 _MPAGE	=	0x00c9
+                    00C9    307 __XPAGE	=	0x00c9
+                    00CA    308 _CRCL	=	0x00ca
+                    00CB    309 _CRCH	=	0x00cb
+                    00CC    310 _TL2	=	0x00cc
+                    00CD    311 _TH2	=	0x00cd
+                    00CE    312 _WUOPC1	=	0x00ce
+                    00CF    313 _WUOPC0	=	0x00cf
+                    00D0    314 _PSW	=	0x00d0
+                    00D1    315 _ADCCON3	=	0x00d1
+                    00D2    316 _ADCCON2	=	0x00d2
+                    00D3    317 _ADCCON1	=	0x00d3
+                    00D4    318 _ADCDATH	=	0x00d4
+                    00D5    319 _ADCDATL	=	0x00d5
+                    00D6    320 _RNGCTL	=	0x00d6
+                    00D7    321 _RNGDAT	=	0x00d7
+                    00D8    322 _ADCON	=	0x00d8
+                    00D9    323 _W2SADR	=	0x00d9
+                    00DA    324 _W2DAT	=	0x00da
+                    00DB    325 _COMPCON	=	0x00db
+                    00DC    326 _POFCON	=	0x00dc
+                    00DD    327 _CCPDATIA	=	0x00dd
+                    00DE    328 _CCPDATIB	=	0x00de
+                    00DF    329 _CCPDATO	=	0x00df
+                    00E0    330 _ACC	=	0x00e0
+                    00E1    331 _W2CON1	=	0x00e1
+                    00E2    332 _W2CON0	=	0x00e2
+                    00E4    333 _SPIRCON0	=	0x00e4
+                    00E5    334 _SPIRCON1	=	0x00e5
+                    00E6    335 _SPIRSTAT	=	0x00e6
+                    00E7    336 _SPIRDAT	=	0x00e7
+                    00E8    337 _RFCON	=	0x00e8
+                    00E9    338 _MD0	=	0x00e9
+                    00EA    339 _MD1	=	0x00ea
+                    00EB    340 _MD2	=	0x00eb
+                    00EC    341 _MD3	=	0x00ec
+                    00ED    342 _MD4	=	0x00ed
+                    00EE    343 _MD5	=	0x00ee
+                    00EF    344 _ARCON	=	0x00ef
+                    00F0    345 _B	=	0x00f0
+                    00F8    346 _FSR	=	0x00f8
+                    00F9    347 _FPCR	=	0x00f9
+                    00FA    348 _FCR	=	0x00fa
+                    00FC    349 _SPIMCON0	=	0x00fc
+                    00FD    350 _SPIMCON1	=	0x00fd
+                    00FE    351 _SPIMSTAT	=	0x00fe
+                    00FF    352 _SPIMDAT	=	0x00ff
+                    C3C2    353 _CC1	=	0xc3c2
+                    C5C4    354 _CC2	=	0xc5c4
+                    C7C6    355 _CC3	=	0xc7c6
+                    CBCA    356 _CRC	=	0xcbca
+                    8C8A    357 _T0	=	0x8c8a
+                    8D8B    358 _T1	=	0x8d8b
+                    CDCC    359 _T2	=	0xcdcc
+                    BAAA    360 _S0REL	=	0xbaaa
+                    D4D5    361 _ADCDAT	=	0xd4d5
+                            362 ;--------------------------------------------------------
+                            363 ; special function bits
+                            364 ;--------------------------------------------------------
+                            365 	.area RSEG    (ABS,DATA)
+   0000                     366 	.org 0x0000
+                    0080    367 _P0_SB_D0	=	0x0080
+                    0081    368 _P0_SB_D1	=	0x0081
+                    0082    369 _P0_SB_D2	=	0x0082
+                    0083    370 _P0_SB_D3	=	0x0083
+                    0084    371 _P0_SB_D4	=	0x0084
+                    0085    372 _P0_SB_D5	=	0x0085
+                    0086    373 _P0_SB_D6	=	0x0086
+                    0087    374 _P0_SB_D7	=	0x0087
+                    0088    375 _TCON_SB_IT0	=	0x0088
+                    0089    376 _TCON_SB_IE0	=	0x0089
+                    008A    377 _TCON_SB_IT1	=	0x008a
+                    008B    378 _TCON_SB_IE1	=	0x008b
+                    008C    379 _TCON_SB_TR0	=	0x008c
+                    008D    380 _TCON_SB_TF0	=	0x008d
+                    008E    381 _TCON_SB_TR1	=	0x008e
+                    008F    382 _TCON_SB_TF1	=	0x008f
+                    0090    383 _P1_SB_D0	=	0x0090
+                    0091    384 _P1_SB_D1	=	0x0091
+                    0092    385 _P1_SB_D2	=	0x0092
+                    0093    386 _P1_SB_D3	=	0x0093
+                    0094    387 _P1_SB_D4	=	0x0094
+                    0095    388 _P1_SB_D5	=	0x0095
+                    0096    389 _P1_SB_D6	=	0x0096
+                    0097    390 _P1_SB_D7	=	0x0097
+                    0098    391 _S0CON_SB_RI0	=	0x0098
+                    0099    392 _S0CON_SB_TI0	=	0x0099
+                    009A    393 _S0CON_SB_RB80	=	0x009a
+                    009B    394 _S0CON_SB_TB80	=	0x009b
+                    009C    395 _S0CON_SB_REN0	=	0x009c
+                    009D    396 _S0CON_SB_SM20	=	0x009d
+                    009E    397 _S0CON_SB_SM1	=	0x009e
+                    009F    398 _S0CON_SB_SM0	=	0x009f
+                    00A0    399 _P2_SB_D0	=	0x00a0
+                    00A1    400 _P2_SB_D1	=	0x00a1
+                    00A2    401 _P2_SB_D2	=	0x00a2
+                    00A3    402 _P2_SB_D3	=	0x00a3
+                    00A4    403 _P2_SB_D4	=	0x00a4
+                    00A5    404 _P2_SB_D5	=	0x00a5
+                    00A6    405 _P2_SB_D6	=	0x00a6
+                    00A7    406 _P2_SB_D7	=	0x00a7
+                    00A8    407 _IEN0_SB_IFP	=	0x00a8
+                    00A9    408 _IEN0_SB_T0	=	0x00a9
+                    00AA    409 _IEN0_SB_POFIRQ	=	0x00aa
+                    00AB    410 _IEN0_SB_T1	=	0x00ab
+                    00AC    411 _IEN0_SB_UART	=	0x00ac
+                    00AD    412 _IEN0_SB_T2	=	0x00ad
+                    00AF    413 _IEN0_SB_GLOBAL	=	0x00af
+                    00B0    414 _P3_SB_D0	=	0x00b0
+                    00B1    415 _P3_SB_D1	=	0x00b1
+                    00B2    416 _P3_SB_D2	=	0x00b2
+                    00B3    417 _P3_SB_D3	=	0x00b3
+                    00B4    418 _P3_SB_D4	=	0x00b4
+                    00B5    419 _P3_SB_D5	=	0x00b5
+                    00B6    420 _P3_SB_D6	=	0x00b6
+                    00B7    421 _P3_SB_D7	=	0x00b7
+                    00B8    422 _IEN1_SB_RFRDY	=	0x00b8
+                    00B9    423 _IEN1_SB_RFIRQ	=	0x00b9
+                    00BA    424 _IEN1_SB_SPI_2WIRE	=	0x00ba
+                    00BB    425 _IEN1_SB_WUOPIRQ	=	0x00bb
+                    00BC    426 _IEN1_SB_MISCIRQ	=	0x00bc
+                    00BD    427 _IEN1_SB_TICK	=	0x00bd
+                    00BF    428 _IEN1_SB_T2EXTRLD	=	0x00bf
+                    00C0    429 _IRCON_SB_RFRDY	=	0x00c0
+                    00C1    430 _IRCON_SB_RFIRQ	=	0x00c1
+                    00C2    431 _IRCON_SB_SPI_2WIRE	=	0x00c2
+                    00C3    432 _IRCON_SB_WUOPIRQ	=	0x00c3
+                    00C4    433 _IRCON_SB_MISCIRQ	=	0x00c4
+                    00C5    434 _IRCON_SB_TICK	=	0x00c5
+                    00C6    435 _IRCON_SB_TF2	=	0x00c6
+                    00C7    436 _IRCON_SB_EXF2	=	0x00c7
+                    00C8    437 _T2CON_SB_T2I0	=	0x00c8
+                    00C9    438 _T2CON_SB_T2I1	=	0x00c9
+                    00CA    439 _T2CON_SB_T2CM	=	0x00ca
+                    00CB    440 _T2CON_SB_T2R0	=	0x00cb
+                    00CC    441 _T2CON_SB_T2R1	=	0x00cc
+                    00CD    442 _T2CON_SB_I2FR	=	0x00cd
+                    00CE    443 _T2CON_SB_I3FR	=	0x00ce
+                    00CF    444 _T2CON_SB_T2PS	=	0x00cf
+                    00D7    445 _PSW_SB_CY	=	0x00d7
+                    00D6    446 _PSW_SB_AC	=	0x00d6
+                    00D5    447 _PSW_SB_F0	=	0x00d5
+                    00D4    448 _PSW_SB_RS1	=	0x00d4
+                    00D3    449 _PSW_SB_RS0	=	0x00d3
+                    00D2    450 _PSW_SB_OV	=	0x00d2
+                    00D1    451 _PSW_SB_F1	=	0x00d1
+                    00D0    452 _PSW_SB_P	=	0x00d0
+                    00DF    453 _ADCON_SB_BD	=	0x00df
+                    00E8    454 _RFCON_SB_RFCE	=	0x00e8
+                    00E9    455 _RFCON_SB_RFCSN	=	0x00e9
+                    00EA    456 _RFCON_SB_RFCKEN	=	0x00ea
+                    00FA    457 _FSR_SB_RDISMB	=	0x00fa
+                    00FB    458 _FSR_SB_INFEN	=	0x00fb
+                    00FC    459 _FSR_SB_RDYN	=	0x00fc
+                    00FD    460 _FSR_SB_WEN	=	0x00fd
+                    00FE    461 _FSR_SB_STP	=	0x00fe
+                    00FF    462 _FSR_SB_ENDBG	=	0x00ff
+                            463 ;--------------------------------------------------------
+                            464 ; overlayable register banks
+                            465 ;--------------------------------------------------------
+                            466 	.area REG_BANK_0	(REL,OVR,DATA)
+   0000                     467 	.ds 8
+                            468 ;--------------------------------------------------------
+                            469 ; internal ram data
+                            470 ;--------------------------------------------------------
+                            471 	.area DSEG    (DATA)
+   0000                     472 _uart_configure_auto_baud_calc_sloc0_1_0:
+   0000                     473 	.ds 2
+   0002                     474 _uart_configure_auto_baud_calc_sloc1_1_0:
+   0002                     475 	.ds 4
+   0006                     476 _uart_configure_auto_baud_calc_sloc2_1_0:
+   0006                     477 	.ds 4
+   000A                     478 _uart_configure_auto_baud_calc_sloc3_1_0:
+   000A                     479 	.ds 4
+                            480 ;--------------------------------------------------------
+                            481 ; overlayable items in internal ram 
+                            482 ;--------------------------------------------------------
+                            483 	.area OSEG    (OVR,DATA)
+                            484 ;--------------------------------------------------------
+                            485 ; indirectly addressable internal ram data
+                            486 ;--------------------------------------------------------
+                            487 	.area ISEG    (DATA)
+                            488 ;--------------------------------------------------------
+                            489 ; absolute internal ram data
+                            490 ;--------------------------------------------------------
+                            491 	.area IABS    (ABS,DATA)
+                            492 	.area IABS    (ABS,DATA)
+                            493 ;--------------------------------------------------------
+                            494 ; bit data
+                            495 ;--------------------------------------------------------
+                            496 	.area BSEG    (BIT)
+                            497 ;--------------------------------------------------------
+                            498 ; paged external ram data
+                            499 ;--------------------------------------------------------
+                            500 	.area PSEG    (PAG,XDATA)
+                            501 ;--------------------------------------------------------
+                            502 ; external ram data
+                            503 ;--------------------------------------------------------
+                            504 	.area XSEG    (XDATA)
+   0000                     505 _uart_configure_auto_baud_calc_PARM_2:
+   0000                     506 	.ds 4
+   0004                     507 _uart_configure_auto_baud_calc_uart_config_options_1_1:
+   0004                     508 	.ds 1
+                            509 ;--------------------------------------------------------
+                            510 ; absolute external ram data
+                            511 ;--------------------------------------------------------
+                            512 	.area XABS    (ABS,XDATA)
+                            513 ;--------------------------------------------------------
+                            514 ; external initialized ram data
+                            515 ;--------------------------------------------------------
+                            516 	.area XISEG   (XDATA)
+                            517 	.area HOME    (CODE)
+                            518 	.area GSINIT0 (CODE)
+                            519 	.area GSINIT1 (CODE)
+                            520 	.area GSINIT2 (CODE)
+                            521 	.area GSINIT3 (CODE)
+                            522 	.area GSINIT4 (CODE)
+                            523 	.area GSINIT5 (CODE)
+                            524 	.area GSINIT  (CODE)
+                            525 	.area GSFINAL (CODE)
+                            526 	.area CSEG    (CODE)
+                            527 ;--------------------------------------------------------
+                            528 ; global & static initialisations
+                            529 ;--------------------------------------------------------
+                            530 	.area HOME    (CODE)
+                            531 	.area GSINIT  (CODE)
+                            532 	.area GSFINAL (CODE)
+                            533 	.area GSINIT  (CODE)
+                            534 ;--------------------------------------------------------
+                            535 ; Home
+                            536 ;--------------------------------------------------------
+                            537 	.area HOME    (CODE)
+                            538 	.area HOME    (CODE)
+                            539 ;--------------------------------------------------------
+                            540 ; code
+                            541 ;--------------------------------------------------------
+                            542 	.area CSEG    (CODE)
+                            543 ;------------------------------------------------------------
+                            544 ;Allocation info for local variables in function 'uart_configure_auto_baud_calc'
+                            545 ;------------------------------------------------------------
+                            546 ;sloc0                     Allocated with name '_uart_configure_auto_baud_calc_sloc0_1_0'
+                            547 ;sloc1                     Allocated with name '_uart_configure_auto_baud_calc_sloc1_1_0'
+                            548 ;sloc2                     Allocated with name '_uart_configure_auto_baud_calc_sloc2_1_0'
+                            549 ;sloc3                     Allocated with name '_uart_configure_auto_baud_calc_sloc3_1_0'
+                            550 ;baud_rate                 Allocated with name '_uart_configure_auto_baud_calc_PARM_2'
+                            551 ;uart_config_options       Allocated with name '_uart_configure_auto_baud_calc_uart_config_options_1_1'
+                            552 ;calc_br_with_smod_cleared Allocated with name '_uart_configure_auto_baud_calc_calc_br_with_smod_cleared_2_2'
+                            553 ;calc_br_with_smod_set     Allocated with name '_uart_configure_auto_baud_calc_calc_br_with_smod_set_2_2'
+                            554 ;error_calc_br_with_smod_cleared Allocated with name '_uart_configure_auto_baud_calc_error_calc_br_with_smod_cleared_2_2'
+                            555 ;error_calc_br_with_smod_set Allocated with name '_uart_configure_auto_baud_calc_error_calc_br_with_smod_set_2_2'
+                            556 ;s0rel_with_smod_cleared   Allocated with name '_uart_configure_auto_baud_calc_s0rel_with_smod_cleared_3_3'
+                            557 ;s0rel_with_smod_set       Allocated with name '_uart_configure_auto_baud_calc_s0rel_with_smod_set_3_3'
+                            558 ;th1_with_smod_cleared     Allocated with name '_uart_configure_auto_baud_calc_th1_with_smod_cleared_3_6'
+                            559 ;th1_with_smod_set         Allocated with name '_uart_configure_auto_baud_calc_th1_with_smod_set_3_6'
+                            560 ;------------------------------------------------------------
+                            561 ;	src/uart_configure_auto_baud_calc.c:48: void uart_configure_auto_baud_calc(uint8_t uart_config_options, uint32_t baud_rate)
+                            562 ;	-----------------------------------------
+                            563 ;	 function uart_configure_auto_baud_calc
+                            564 ;	-----------------------------------------
+   0000                     565 _uart_configure_auto_baud_calc:
+                    0007    566 	ar7 = 0x07
+                    0006    567 	ar6 = 0x06
+                    0005    568 	ar5 = 0x05
+                    0004    569 	ar4 = 0x04
+                    0003    570 	ar3 = 0x03
+                    0002    571 	ar2 = 0x02
+                    0001    572 	ar1 = 0x01
+                    0000    573 	ar0 = 0x00
+   0000 E5 82               574 	mov	a,dpl
+                            575 ;	src/uart_configure_auto_baud_calc.c:51: if(((uart_config_options & UART_CONFIG_OPTION_MODE_MASK) == UART_CONFIG_OPTION_MODE_1_UART_8_BIT) ||
+   0002 90s00r04            576 	mov	dptr,#_uart_configure_auto_baud_calc_uart_config_options_1_1
+   0005 F0                  577 	movx	@dptr,a
+   0006 FF                  578 	mov	r7,a
+   0007 74 C0               579 	mov	a,#0xC0
+   0009 5F                  580 	anl	a,r7
+   000A FE                  581 	mov	r6,a
+   000B BE 40 02            582 	cjne	r6,#0x40,00131$
+   000E 80 0A               583 	sjmp	00110$
+   0010                     584 00131$:
+                            585 ;	src/uart_configure_auto_baud_calc.c:52: ((uart_config_options & UART_CONFIG_OPTION_MODE_MASK) == UART_CONFIG_OPTION_MODE_3_UART_9_BIT))
+   0010 74 C0               586 	mov	a,#0xC0
+   0012 5F                  587 	anl	a,r7
+   0013 FE                  588 	mov	r6,a
+   0014 BE C0 02            589 	cjne	r6,#0xC0,00132$
+   0017 80 01               590 	sjmp	00133$
+   0019                     591 00132$:
+   0019 22                  592 	ret
+   001A                     593 00133$:
+   001A                     594 00110$:
+                            595 ;	src/uart_configure_auto_baud_calc.c:58: if((uart_config_options & UART_CONFIG_OPTION_CLOCK_MASK) == UART_CONFIG_OPTION_CLOCK_FOR_MODES_1_3_USE_BR_GEN)
+   001A 74 02               596 	mov	a,#0x02
+   001C 5F                  597 	anl	a,r7
+   001D FE                  598 	mov	r6,a
+   001E BE 02 02            599 	cjne	r6,#0x02,00134$
+   0021 80 03               600 	sjmp	00135$
+   0023                     601 00134$:
+   0023 02s01r74            602 	ljmp	00108$
+   0026                     603 00135$:
+                            604 ;	src/uart_configure_auto_baud_calc.c:63: s0rel_with_smod_cleared = uart_calc_s0rel_value(baud_rate, 0);
+   0026 90s00r00            605 	mov	dptr,#_uart_configure_auto_baud_calc_PARM_2
+   0029 E0                  606 	movx	a,@dptr
+   002A FB                  607 	mov	r3,a
+   002B A3                  608 	inc	dptr
+   002C E0                  609 	movx	a,@dptr
+   002D FC                  610 	mov	r4,a
+   002E A3                  611 	inc	dptr
+   002F E0                  612 	movx	a,@dptr
+   0030 FD                  613 	mov	r5,a
+   0031 A3                  614 	inc	dptr
+   0032 E0                  615 	movx	a,@dptr
+   0033 FE                  616 	mov	r6,a
+   0034 90s00r00            617 	mov	dptr,#_uart_calc_s0rel_value_PARM_2
+   0037 E4                  618 	clr	a
+   0038 F0                  619 	movx	@dptr,a
+   0039 8B 82               620 	mov	dpl,r3
+   003B 8C 83               621 	mov	dph,r4
+   003D 8D F0               622 	mov	b,r5
+   003F EE                  623 	mov	a,r6
+   0040 C0 07               624 	push	ar7
+   0042 C0 06               625 	push	ar6
+   0044 C0 05               626 	push	ar5
+   0046 C0 04               627 	push	ar4
+   0048 C0 03               628 	push	ar3
+   004A 12s00r00            629 	lcall	_uart_calc_s0rel_value
+   004D A9 82               630 	mov	r1,dpl
+   004F AA 83               631 	mov	r2,dph
+   0051 D0 03               632 	pop	ar3
+   0053 D0 04               633 	pop	ar4
+   0055 D0 05               634 	pop	ar5
+   0057 D0 06               635 	pop	ar6
+                            636 ;	src/uart_configure_auto_baud_calc.c:64: s0rel_with_smod_set = uart_calc_s0rel_value(baud_rate, 1);
+   0059 90s00r00            637 	mov	dptr,#_uart_calc_s0rel_value_PARM_2
+   005C 74 01               638 	mov	a,#0x01
+   005E F0                  639 	movx	@dptr,a
+   005F 8B 82               640 	mov	dpl,r3
+   0061 8C 83               641 	mov	dph,r4
+   0063 8D F0               642 	mov	b,r5
+   0065 EE                  643 	mov	a,r6
+   0066 C0 06               644 	push	ar6
+   0068 C0 05               645 	push	ar5
+   006A C0 04               646 	push	ar4
+   006C C0 03               647 	push	ar3
+   006E C0 02               648 	push	ar2
+   0070 C0 01               649 	push	ar1
+   0072 12s00r00            650 	lcall	_uart_calc_s0rel_value
+   0075 85 82*00            651 	mov	_uart_configure_auto_baud_calc_sloc0_1_0,dpl
+   0078 85 83*01            652 	mov	(_uart_configure_auto_baud_calc_sloc0_1_0 + 1),dph
+   007B D0 01               653 	pop	ar1
+   007D D0 02               654 	pop	ar2
+                            655 ;	src/uart_configure_auto_baud_calc.c:67: calc_br_with_smod_cleared = uart_calc_actual_baud_rate_from_s0rel(s0rel_with_smod_cleared, false);
+   007F 90s00r00            656 	mov	dptr,#_uart_calc_actual_baud_rate_from_s0rel_PARM_2
+   0082 E4                  657 	clr	a
+   0083 F0                  658 	movx	@dptr,a
+   0084 89 82               659 	mov	dpl,r1
+   0086 8A 83               660 	mov	dph,r2
+   0088 C0 02               661 	push	ar2
+   008A C0 01               662 	push	ar1
+   008C 12s00r00            663 	lcall	_uart_calc_actual_baud_rate_from_s0rel
+   008F 85 82*02            664 	mov	_uart_configure_auto_baud_calc_sloc1_1_0,dpl
+   0092 85 83*03            665 	mov	(_uart_configure_auto_baud_calc_sloc1_1_0 + 1),dph
+   0095 85 F0*04            666 	mov	(_uart_configure_auto_baud_calc_sloc1_1_0 + 2),b
+   0098 F5*05               667 	mov	(_uart_configure_auto_baud_calc_sloc1_1_0 + 3),a
+                            668 ;	src/uart_configure_auto_baud_calc.c:68: calc_br_with_smod_set = uart_calc_actual_baud_rate_from_s0rel(s0rel_with_smod_set, true);
+   009A 90s00r00            669 	mov	dptr,#_uart_calc_actual_baud_rate_from_s0rel_PARM_2
+   009D 74 01               670 	mov	a,#0x01
+   009F F0                  671 	movx	@dptr,a
+   00A0 85*00 82            672 	mov	dpl,_uart_configure_auto_baud_calc_sloc0_1_0
+   00A3 85*01 83            673 	mov	dph,(_uart_configure_auto_baud_calc_sloc0_1_0 + 1)
+   00A6 12s00r00            674 	lcall	_uart_calc_actual_baud_rate_from_s0rel
+   00A9 85 82*06            675 	mov	_uart_configure_auto_baud_calc_sloc2_1_0,dpl
+   00AC 85 83*07            676 	mov	(_uart_configure_auto_baud_calc_sloc2_1_0 + 1),dph
+   00AF 85 F0*08            677 	mov	(_uart_configure_auto_baud_calc_sloc2_1_0 + 2),b
+   00B2 F5*09               678 	mov	(_uart_configure_auto_baud_calc_sloc2_1_0 + 3),a
+   00B4 D0 01               679 	pop	ar1
+   00B6 D0 02               680 	pop	ar2
+   00B8 D0 03               681 	pop	ar3
+   00BA D0 04               682 	pop	ar4
+   00BC D0 05               683 	pop	ar5
+   00BE D0 06               684 	pop	ar6
+   00C0 D0 07               685 	pop	ar7
+                            686 ;	src/uart_configure_auto_baud_calc.c:71: error_calc_br_with_smod_cleared = (calc_br_with_smod_cleared > baud_rate) ? (calc_br_with_smod_cleared - baud_rate) : (baud_rate - calc_br_with_smod_cleared);
+   00C2 C3                  687 	clr	c
+   00C3 EB                  688 	mov	a,r3
+   00C4 95*02               689 	subb	a,_uart_configure_auto_baud_calc_sloc1_1_0
+   00C6 EC                  690 	mov	a,r4
+   00C7 95*03               691 	subb	a,(_uart_configure_auto_baud_calc_sloc1_1_0 + 1)
+   00C9 ED                  692 	mov	a,r5
+   00CA 95*04               693 	subb	a,(_uart_configure_auto_baud_calc_sloc1_1_0 + 2)
+   00CC EE                  694 	mov	a,r6
+   00CD 95*05               695 	subb	a,(_uart_configure_auto_baud_calc_sloc1_1_0 + 3)
+   00CF 50 17               696 	jnc	00115$
+   00D1 E5*02               697 	mov	a,_uart_configure_auto_baud_calc_sloc1_1_0
+   00D3 C3                  698 	clr	c
+   00D4 9B                  699 	subb	a,r3
+   00D5 F5*0A               700 	mov	_uart_configure_auto_baud_calc_sloc3_1_0,a
+   00D7 E5*03               701 	mov	a,(_uart_configure_auto_baud_calc_sloc1_1_0 + 1)
+   00D9 9C                  702 	subb	a,r4
+   00DA F5*0B               703 	mov	(_uart_configure_auto_baud_calc_sloc3_1_0 + 1),a
+   00DC E5*04               704 	mov	a,(_uart_configure_auto_baud_calc_sloc1_1_0 + 2)
+   00DE 9D                  705 	subb	a,r5
+   00DF F5*0C               706 	mov	(_uart_configure_auto_baud_calc_sloc3_1_0 + 2),a
+   00E1 E5*05               707 	mov	a,(_uart_configure_auto_baud_calc_sloc1_1_0 + 3)
+   00E3 9E                  708 	subb	a,r6
+   00E4 F5*0D               709 	mov	(_uart_configure_auto_baud_calc_sloc3_1_0 + 3),a
+   00E6 80 15               710 	sjmp	00116$
+   00E8                     711 00115$:
+   00E8 EB                  712 	mov	a,r3
+   00E9 C3                  713 	clr	c
+   00EA 95*02               714 	subb	a,_uart_configure_auto_baud_calc_sloc1_1_0
+   00EC F5*0A               715 	mov	_uart_configure_auto_baud_calc_sloc3_1_0,a
+   00EE EC                  716 	mov	a,r4
+   00EF 95*03               717 	subb	a,(_uart_configure_auto_baud_calc_sloc1_1_0 + 1)
+   00F1 F5*0B               718 	mov	(_uart_configure_auto_baud_calc_sloc3_1_0 + 1),a
+   00F3 ED                  719 	mov	a,r5
+   00F4 95*04               720 	subb	a,(_uart_configure_auto_baud_calc_sloc1_1_0 + 2)
+   00F6 F5*0C               721 	mov	(_uart_configure_auto_baud_calc_sloc3_1_0 + 2),a
+   00F8 EE                  722 	mov	a,r6
+   00F9 95*05               723 	subb	a,(_uart_configure_auto_baud_calc_sloc1_1_0 + 3)
+   00FB F5*0D               724 	mov	(_uart_configure_auto_baud_calc_sloc3_1_0 + 3),a
+   00FD                     725 00116$:
+                            726 ;	src/uart_configure_auto_baud_calc.c:72: error_calc_br_with_smod_set = (calc_br_with_smod_set > baud_rate) ? (calc_br_with_smod_set - baud_rate) : (baud_rate - calc_br_with_smod_set);
+   00FD C3                  727 	clr	c
+   00FE EB                  728 	mov	a,r3
+   00FF 95*06               729 	subb	a,_uart_configure_auto_baud_calc_sloc2_1_0
+   0101 EC                  730 	mov	a,r4
+   0102 95*07               731 	subb	a,(_uart_configure_auto_baud_calc_sloc2_1_0 + 1)
+   0104 ED                  732 	mov	a,r5
+   0105 95*08               733 	subb	a,(_uart_configure_auto_baud_calc_sloc2_1_0 + 2)
+   0107 EE                  734 	mov	a,r6
+   0108 95*09               735 	subb	a,(_uart_configure_auto_baud_calc_sloc2_1_0 + 3)
+   010A 50 17               736 	jnc	00117$
+   010C E5*06               737 	mov	a,_uart_configure_auto_baud_calc_sloc2_1_0
+   010E C3                  738 	clr	c
+   010F 9B                  739 	subb	a,r3
+   0110 F5*02               740 	mov	_uart_configure_auto_baud_calc_sloc1_1_0,a
+   0112 E5*07               741 	mov	a,(_uart_configure_auto_baud_calc_sloc2_1_0 + 1)
+   0114 9C                  742 	subb	a,r4
+   0115 F5*03               743 	mov	(_uart_configure_auto_baud_calc_sloc1_1_0 + 1),a
+   0117 E5*08               744 	mov	a,(_uart_configure_auto_baud_calc_sloc2_1_0 + 2)
+   0119 9D                  745 	subb	a,r5
+   011A F5*04               746 	mov	(_uart_configure_auto_baud_calc_sloc1_1_0 + 2),a
+   011C E5*09               747 	mov	a,(_uart_configure_auto_baud_calc_sloc2_1_0 + 3)
+   011E 9E                  748 	subb	a,r6
+   011F F5*05               749 	mov	(_uart_configure_auto_baud_calc_sloc1_1_0 + 3),a
+   0121 80 15               750 	sjmp	00118$
+   0123                     751 00117$:
+   0123 EB                  752 	mov	a,r3
+   0124 C3                  753 	clr	c
+   0125 95*06               754 	subb	a,_uart_configure_auto_baud_calc_sloc2_1_0
+   0127 F5*02               755 	mov	_uart_configure_auto_baud_calc_sloc1_1_0,a
+   0129 EC                  756 	mov	a,r4
+   012A 95*07               757 	subb	a,(_uart_configure_auto_baud_calc_sloc2_1_0 + 1)
+   012C F5*03               758 	mov	(_uart_configure_auto_baud_calc_sloc1_1_0 + 1),a
+   012E ED                  759 	mov	a,r5
+   012F 95*08               760 	subb	a,(_uart_configure_auto_baud_calc_sloc2_1_0 + 2)
+   0131 F5*04               761 	mov	(_uart_configure_auto_baud_calc_sloc1_1_0 + 2),a
+   0133 EE                  762 	mov	a,r6
+   0134 95*09               763 	subb	a,(_uart_configure_auto_baud_calc_sloc2_1_0 + 3)
+   0136 F5*05               764 	mov	(_uart_configure_auto_baud_calc_sloc1_1_0 + 3),a
+   0138                     765 00118$:
+                            766 ;	src/uart_configure_auto_baud_calc.c:75: if(error_calc_br_with_smod_cleared < error_calc_br_with_smod_set)
+   0138 C3                  767 	clr	c
+   0139 E5*0A               768 	mov	a,_uart_configure_auto_baud_calc_sloc3_1_0
+   013B 95*02               769 	subb	a,_uart_configure_auto_baud_calc_sloc1_1_0
+   013D E5*0B               770 	mov	a,(_uart_configure_auto_baud_calc_sloc3_1_0 + 1)
+   013F 95*03               771 	subb	a,(_uart_configure_auto_baud_calc_sloc1_1_0 + 1)
+   0141 E5*0C               772 	mov	a,(_uart_configure_auto_baud_calc_sloc3_1_0 + 2)
+   0143 95*04               773 	subb	a,(_uart_configure_auto_baud_calc_sloc1_1_0 + 2)
+   0145 E5*0D               774 	mov	a,(_uart_configure_auto_baud_calc_sloc3_1_0 + 3)
+   0147 95*05               775 	subb	a,(_uart_configure_auto_baud_calc_sloc1_1_0 + 3)
+   0149 50 12               776 	jnc	00102$
+                            777 ;	src/uart_configure_auto_baud_calc.c:77: uart_configure_manual_baud_calc(((uart_config_options & ~UART_CONFIG_OPTION_BIT_SMOD_MASK) | UART_CONFIG_OPTION_BIT_SMOD_CLEAR),
+   014B 8F 06               778 	mov	ar6,r7
+   014D 53 06 FB            779 	anl	ar6,#0xFB
+                            780 ;	src/uart_configure_auto_baud_calc.c:78: s0rel_with_smod_cleared);
+   0150 90s00r00            781 	mov	dptr,#_uart_configure_manual_baud_calc_PARM_2
+   0153 E9                  782 	mov	a,r1
+   0154 F0                  783 	movx	@dptr,a
+   0155 A3                  784 	inc	dptr
+   0156 EA                  785 	mov	a,r2
+   0157 F0                  786 	movx	@dptr,a
+   0158 8E 82               787 	mov	dpl,r6
+   015A 02s00r00            788 	ljmp	_uart_configure_manual_baud_calc
+   015D                     789 00102$:
+                            790 ;	src/uart_configure_auto_baud_calc.c:82: uart_configure_manual_baud_calc(((uart_config_options & ~UART_CONFIG_OPTION_BIT_SMOD_MASK) | UART_CONFIG_OPTION_BIT_SMOD_SET),
+   015D 8F 06               791 	mov	ar6,r7
+   015F 74 FB               792 	mov	a,#0xFB
+   0161 5E                  793 	anl	a,r6
+   0162 44 04               794 	orl	a,#0x04
+   0164 FE                  795 	mov	r6,a
+                            796 ;	src/uart_configure_auto_baud_calc.c:83: s0rel_with_smod_set);
+   0165 90s00r00            797 	mov	dptr,#_uart_configure_manual_baud_calc_PARM_2
+   0168 E5*00               798 	mov	a,_uart_configure_auto_baud_calc_sloc0_1_0
+   016A F0                  799 	movx	@dptr,a
+   016B A3                  800 	inc	dptr
+   016C E5*01               801 	mov	a,(_uart_configure_auto_baud_calc_sloc0_1_0 + 1)
+   016E F0                  802 	movx	@dptr,a
+   016F 8E 82               803 	mov	dpl,r6
+   0171 02s00r00            804 	ljmp	_uart_configure_manual_baud_calc
+   0174                     805 00108$:
+                            806 ;	src/uart_configure_auto_baud_calc.c:91: th1_with_smod_cleared = uart_calc_th1_value(baud_rate, 0);
+   0174 90s00r00            807 	mov	dptr,#_uart_configure_auto_baud_calc_PARM_2
+   0177 E0                  808 	movx	a,@dptr
+   0178 FB                  809 	mov	r3,a
+   0179 A3                  810 	inc	dptr
+   017A E0                  811 	movx	a,@dptr
+   017B FC                  812 	mov	r4,a
+   017C A3                  813 	inc	dptr
+   017D E0                  814 	movx	a,@dptr
+   017E FD                  815 	mov	r5,a
+   017F A3                  816 	inc	dptr
+   0180 E0                  817 	movx	a,@dptr
+   0181 FE                  818 	mov	r6,a
+   0182 90s00r00            819 	mov	dptr,#_uart_calc_th1_value_PARM_2
+   0185 E4                  820 	clr	a
+   0186 F0                  821 	movx	@dptr,a
+   0187 8B 82               822 	mov	dpl,r3
+   0189 8C 83               823 	mov	dph,r4
+   018B 8D F0               824 	mov	b,r5
+   018D EE                  825 	mov	a,r6
+   018E C0 07               826 	push	ar7
+   0190 C0 06               827 	push	ar6
+   0192 C0 05               828 	push	ar5
+   0194 C0 04               829 	push	ar4
+   0196 C0 03               830 	push	ar3
+   0198 12s00r00            831 	lcall	_uart_calc_th1_value
+   019B AA 82               832 	mov	r2,dpl
+   019D D0 03               833 	pop	ar3
+   019F D0 04               834 	pop	ar4
+   01A1 D0 05               835 	pop	ar5
+   01A3 D0 06               836 	pop	ar6
+                            837 ;	src/uart_configure_auto_baud_calc.c:92: th1_with_smod_set = uart_calc_th1_value(baud_rate, 1);
+   01A5 90s00r00            838 	mov	dptr,#_uart_calc_th1_value_PARM_2
+   01A8 74 01               839 	mov	a,#0x01
+   01AA F0                  840 	movx	@dptr,a
+   01AB 8B 82               841 	mov	dpl,r3
+   01AD 8C 83               842 	mov	dph,r4
+   01AF 8D F0               843 	mov	b,r5
+   01B1 EE                  844 	mov	a,r6
+   01B2 C0 06               845 	push	ar6
+   01B4 C0 05               846 	push	ar5
+   01B6 C0 04               847 	push	ar4
+   01B8 C0 03               848 	push	ar3
+   01BA C0 02               849 	push	ar2
+   01BC 12s00r00            850 	lcall	_uart_calc_th1_value
+   01BF A9 82               851 	mov	r1,dpl
+   01C1 D0 02               852 	pop	ar2
+                            853 ;	src/uart_configure_auto_baud_calc.c:95: calc_br_with_smod_cleared = uart_calc_actual_baud_rate_from_th1(th1_with_smod_cleared, false);
+   01C3 90s00r00            854 	mov	dptr,#_uart_calc_actual_baud_rate_from_th1_PARM_2
+   01C6 E4                  855 	clr	a
+   01C7 F0                  856 	movx	@dptr,a
+   01C8 8A 82               857 	mov	dpl,r2
+   01CA C0 02               858 	push	ar2
+   01CC C0 01               859 	push	ar1
+   01CE 12s00r00            860 	lcall	_uart_calc_actual_baud_rate_from_th1
+   01D1 85 82*0A            861 	mov	_uart_configure_auto_baud_calc_sloc3_1_0,dpl
+   01D4 85 83*0B            862 	mov	(_uart_configure_auto_baud_calc_sloc3_1_0 + 1),dph
+   01D7 85 F0*0C            863 	mov	(_uart_configure_auto_baud_calc_sloc3_1_0 + 2),b
+   01DA F5*0D               864 	mov	(_uart_configure_auto_baud_calc_sloc3_1_0 + 3),a
+   01DC D0 01               865 	pop	ar1
+                            866 ;	src/uart_configure_auto_baud_calc.c:96: calc_br_with_smod_set = uart_calc_actual_baud_rate_from_th1(th1_with_smod_set, true);
+   01DE 90s00r00            867 	mov	dptr,#_uart_calc_actual_baud_rate_from_th1_PARM_2
+   01E1 74 01               868 	mov	a,#0x01
+   01E3 F0                  869 	movx	@dptr,a
+   01E4 89 82               870 	mov	dpl,r1
+   01E6 C0 01               871 	push	ar1
+   01E8 12s00r00            872 	lcall	_uart_calc_actual_baud_rate_from_th1
+   01EB 85 82*06            873 	mov	_uart_configure_auto_baud_calc_sloc2_1_0,dpl
+   01EE 85 83*07            874 	mov	(_uart_configure_auto_baud_calc_sloc2_1_0 + 1),dph
+   01F1 85 F0*08            875 	mov	(_uart_configure_auto_baud_calc_sloc2_1_0 + 2),b
+   01F4 F5*09               876 	mov	(_uart_configure_auto_baud_calc_sloc2_1_0 + 3),a
+   01F6 D0 01               877 	pop	ar1
+   01F8 D0 02               878 	pop	ar2
+   01FA D0 03               879 	pop	ar3
+   01FC D0 04               880 	pop	ar4
+   01FE D0 05               881 	pop	ar5
+   0200 D0 06               882 	pop	ar6
+   0202 D0 07               883 	pop	ar7
+                            884 ;	src/uart_configure_auto_baud_calc.c:99: error_calc_br_with_smod_cleared = (calc_br_with_smod_cleared > baud_rate) ? (calc_br_with_smod_cleared - baud_rate) : (baud_rate - calc_br_with_smod_cleared);
+   0204 C3                  885 	clr	c
+   0205 EB                  886 	mov	a,r3
+   0206 95*0A               887 	subb	a,_uart_configure_auto_baud_calc_sloc3_1_0
+   0208 EC                  888 	mov	a,r4
+   0209 95*0B               889 	subb	a,(_uart_configure_auto_baud_calc_sloc3_1_0 + 1)
+   020B ED                  890 	mov	a,r5
+   020C 95*0C               891 	subb	a,(_uart_configure_auto_baud_calc_sloc3_1_0 + 2)
+   020E EE                  892 	mov	a,r6
+   020F 95*0D               893 	subb	a,(_uart_configure_auto_baud_calc_sloc3_1_0 + 3)
+   0211 50 17               894 	jnc	00119$
+   0213 E5*0A               895 	mov	a,_uart_configure_auto_baud_calc_sloc3_1_0
+   0215 C3                  896 	clr	c
+   0216 9B                  897 	subb	a,r3
+   0217 F5*02               898 	mov	_uart_configure_auto_baud_calc_sloc1_1_0,a
+   0219 E5*0B               899 	mov	a,(_uart_configure_auto_baud_calc_sloc3_1_0 + 1)
+   021B 9C                  900 	subb	a,r4
+   021C F5*03               901 	mov	(_uart_configure_auto_baud_calc_sloc1_1_0 + 1),a
+   021E E5*0C               902 	mov	a,(_uart_configure_auto_baud_calc_sloc3_1_0 + 2)
+   0220 9D                  903 	subb	a,r5
+   0221 F5*04               904 	mov	(_uart_configure_auto_baud_calc_sloc1_1_0 + 2),a
+   0223 E5*0D               905 	mov	a,(_uart_configure_auto_baud_calc_sloc3_1_0 + 3)
+   0225 9E                  906 	subb	a,r6
+   0226 F5*05               907 	mov	(_uart_configure_auto_baud_calc_sloc1_1_0 + 3),a
+   0228 80 15               908 	sjmp	00120$
+   022A                     909 00119$:
+   022A EB                  910 	mov	a,r3
+   022B C3                  911 	clr	c
+   022C 95*0A               912 	subb	a,_uart_configure_auto_baud_calc_sloc3_1_0
+   022E F5*02               913 	mov	_uart_configure_auto_baud_calc_sloc1_1_0,a
+   0230 EC                  914 	mov	a,r4
+   0231 95*0B               915 	subb	a,(_uart_configure_auto_baud_calc_sloc3_1_0 + 1)
+   0233 F5*03               916 	mov	(_uart_configure_auto_baud_calc_sloc1_1_0 + 1),a
+   0235 ED                  917 	mov	a,r5
+   0236 95*0C               918 	subb	a,(_uart_configure_auto_baud_calc_sloc3_1_0 + 2)
+   0238 F5*04               919 	mov	(_uart_configure_auto_baud_calc_sloc1_1_0 + 2),a
+   023A EE                  920 	mov	a,r6
+   023B 95*0D               921 	subb	a,(_uart_configure_auto_baud_calc_sloc3_1_0 + 3)
+   023D F5*05               922 	mov	(_uart_configure_auto_baud_calc_sloc1_1_0 + 3),a
+   023F                     923 00120$:
+                            924 ;	src/uart_configure_auto_baud_calc.c:100: error_calc_br_with_smod_set = (calc_br_with_smod_set > baud_rate) ? (calc_br_with_smod_set - baud_rate) : (baud_rate - calc_br_with_smod_set);
+   023F C3                  925 	clr	c
+   0240 EB                  926 	mov	a,r3
+   0241 95*06               927 	subb	a,_uart_configure_auto_baud_calc_sloc2_1_0
+   0243 EC                  928 	mov	a,r4
+   0244 95*07               929 	subb	a,(_uart_configure_auto_baud_calc_sloc2_1_0 + 1)
+   0246 ED                  930 	mov	a,r5
+   0247 95*08               931 	subb	a,(_uart_configure_auto_baud_calc_sloc2_1_0 + 2)
+   0249 EE                  932 	mov	a,r6
+   024A 95*09               933 	subb	a,(_uart_configure_auto_baud_calc_sloc2_1_0 + 3)
+   024C 50 17               934 	jnc	00121$
+   024E E5*06               935 	mov	a,_uart_configure_auto_baud_calc_sloc2_1_0
+   0250 C3                  936 	clr	c
+   0251 9B                  937 	subb	a,r3
+   0252 F5*0A               938 	mov	_uart_configure_auto_baud_calc_sloc3_1_0,a
+   0254 E5*07               939 	mov	a,(_uart_configure_auto_baud_calc_sloc2_1_0 + 1)
+   0256 9C                  940 	subb	a,r4
+   0257 F5*0B               941 	mov	(_uart_configure_auto_baud_calc_sloc3_1_0 + 1),a
+   0259 E5*08               942 	mov	a,(_uart_configure_auto_baud_calc_sloc2_1_0 + 2)
+   025B 9D                  943 	subb	a,r5
+   025C F5*0C               944 	mov	(_uart_configure_auto_baud_calc_sloc3_1_0 + 2),a
+   025E E5*09               945 	mov	a,(_uart_configure_auto_baud_calc_sloc2_1_0 + 3)
+   0260 9E                  946 	subb	a,r6
+   0261 F5*0D               947 	mov	(_uart_configure_auto_baud_calc_sloc3_1_0 + 3),a
+   0263 80 15               948 	sjmp	00122$
+   0265                     949 00121$:
+   0265 EB                  950 	mov	a,r3
+   0266 C3                  951 	clr	c
+   0267 95*06               952 	subb	a,_uart_configure_auto_baud_calc_sloc2_1_0
+   0269 F5*0A               953 	mov	_uart_configure_auto_baud_calc_sloc3_1_0,a
+   026B EC                  954 	mov	a,r4
+   026C 95*07               955 	subb	a,(_uart_configure_auto_baud_calc_sloc2_1_0 + 1)
+   026E F5*0B               956 	mov	(_uart_configure_auto_baud_calc_sloc3_1_0 + 1),a
+   0270 ED                  957 	mov	a,r5
+   0271 95*08               958 	subb	a,(_uart_configure_auto_baud_calc_sloc2_1_0 + 2)
+   0273 F5*0C               959 	mov	(_uart_configure_auto_baud_calc_sloc3_1_0 + 2),a
+   0275 EE                  960 	mov	a,r6
+   0276 95*09               961 	subb	a,(_uart_configure_auto_baud_calc_sloc2_1_0 + 3)
+   0278 F5*0D               962 	mov	(_uart_configure_auto_baud_calc_sloc3_1_0 + 3),a
+   027A                     963 00122$:
+                            964 ;	src/uart_configure_auto_baud_calc.c:103: if(error_calc_br_with_smod_cleared < error_calc_br_with_smod_set)
+   027A C3                  965 	clr	c
+   027B E5*02               966 	mov	a,_uart_configure_auto_baud_calc_sloc1_1_0
+   027D 95*0A               967 	subb	a,_uart_configure_auto_baud_calc_sloc3_1_0
+   027F E5*03               968 	mov	a,(_uart_configure_auto_baud_calc_sloc1_1_0 + 1)
+   0281 95*0B               969 	subb	a,(_uart_configure_auto_baud_calc_sloc3_1_0 + 1)
+   0283 E5*04               970 	mov	a,(_uart_configure_auto_baud_calc_sloc1_1_0 + 2)
+   0285 95*0C               971 	subb	a,(_uart_configure_auto_baud_calc_sloc3_1_0 + 2)
+   0287 E5*05               972 	mov	a,(_uart_configure_auto_baud_calc_sloc1_1_0 + 3)
+   0289 95*0D               973 	subb	a,(_uart_configure_auto_baud_calc_sloc3_1_0 + 3)
+   028B 50 12               974 	jnc	00105$
+                            975 ;	src/uart_configure_auto_baud_calc.c:105: uart_configure_manual_baud_calc(((uart_config_options & ~UART_CONFIG_OPTION_BIT_SMOD_MASK) | UART_CONFIG_OPTION_BIT_SMOD_CLEAR),
+   028D 8F 06               976 	mov	ar6,r7
+   028F 53 06 FB            977 	anl	ar6,#0xFB
+                            978 ;	src/uart_configure_auto_baud_calc.c:106: (uint16_t)th1_with_smod_cleared);
+   0292 90s00r00            979 	mov	dptr,#_uart_configure_manual_baud_calc_PARM_2
+   0295 EA                  980 	mov	a,r2
+   0296 F0                  981 	movx	@dptr,a
+   0297 A3                  982 	inc	dptr
+   0298 E4                  983 	clr	a
+   0299 F0                  984 	movx	@dptr,a
+   029A 8E 82               985 	mov	dpl,r6
+   029C 02s00r00            986 	ljmp	_uart_configure_manual_baud_calc
+   029F                     987 00105$:
+                            988 ;	src/uart_configure_auto_baud_calc.c:110: uart_configure_manual_baud_calc(((uart_config_options & ~UART_CONFIG_OPTION_BIT_SMOD_MASK) | UART_CONFIG_OPTION_BIT_SMOD_SET),
+   029F 74 FB               989 	mov	a,#0xFB
+   02A1 5F                  990 	anl	a,r7
+   02A2 44 04               991 	orl	a,#0x04
+   02A4 FF                  992 	mov	r7,a
+                            993 ;	src/uart_configure_auto_baud_calc.c:111: (uint16_t)th1_with_smod_set);
+   02A5 90s00r00            994 	mov	dptr,#_uart_configure_manual_baud_calc_PARM_2
+   02A8 E9                  995 	mov	a,r1
+   02A9 F0                  996 	movx	@dptr,a
+   02AA A3                  997 	inc	dptr
+   02AB E4                  998 	clr	a
+   02AC F0                  999 	movx	@dptr,a
+   02AD 8F 82              1000 	mov	dpl,r7
+   02AF 02s00r00           1001 	ljmp	_uart_configure_manual_baud_calc
+                           1002 	.area CSEG    (CODE)
+                           1003 	.area CONST   (CODE)
+                           1004 	.area XINIT   (CODE)
+                           1005 	.area CABS    (ABS,CODE)

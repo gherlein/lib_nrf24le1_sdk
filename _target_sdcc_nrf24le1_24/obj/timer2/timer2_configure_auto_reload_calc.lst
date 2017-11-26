@@ -1,0 +1,880 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.1.0 #7066 (Nov 22 2011) (Linux)
+                              4 ; This file was generated Sat Feb 18 15:31:26 2012
+                              5 ;--------------------------------------------------------
+                              6 	.module timer2_configure_auto_reload_calc
+                              7 	.optsdcc -mmcs51 --model-large
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl _timer2_calc_actual_period
+                             13 	.globl _timer2_calc_crc_val
+                             14 	.globl _timer2_configure_manual_reload_calc
+                             15 	.globl _FSR_SB_ENDBG
+                             16 	.globl _FSR_SB_STP
+                             17 	.globl _FSR_SB_WEN
+                             18 	.globl _FSR_SB_RDYN
+                             19 	.globl _FSR_SB_INFEN
+                             20 	.globl _FSR_SB_RDISMB
+                             21 	.globl _RFCON_SB_RFCKEN
+                             22 	.globl _RFCON_SB_RFCSN
+                             23 	.globl _RFCON_SB_RFCE
+                             24 	.globl _ADCON_SB_BD
+                             25 	.globl _PSW_SB_P
+                             26 	.globl _PSW_SB_F1
+                             27 	.globl _PSW_SB_OV
+                             28 	.globl _PSW_SB_RS0
+                             29 	.globl _PSW_SB_RS1
+                             30 	.globl _PSW_SB_F0
+                             31 	.globl _PSW_SB_AC
+                             32 	.globl _PSW_SB_CY
+                             33 	.globl _T2CON_SB_T2PS
+                             34 	.globl _T2CON_SB_I3FR
+                             35 	.globl _T2CON_SB_I2FR
+                             36 	.globl _T2CON_SB_T2R1
+                             37 	.globl _T2CON_SB_T2R0
+                             38 	.globl _T2CON_SB_T2CM
+                             39 	.globl _T2CON_SB_T2I1
+                             40 	.globl _T2CON_SB_T2I0
+                             41 	.globl _IRCON_SB_EXF2
+                             42 	.globl _IRCON_SB_TF2
+                             43 	.globl _IRCON_SB_TICK
+                             44 	.globl _IRCON_SB_MISCIRQ
+                             45 	.globl _IRCON_SB_WUOPIRQ
+                             46 	.globl _IRCON_SB_SPI_2WIRE
+                             47 	.globl _IRCON_SB_RFIRQ
+                             48 	.globl _IRCON_SB_RFRDY
+                             49 	.globl _IEN1_SB_T2EXTRLD
+                             50 	.globl _IEN1_SB_TICK
+                             51 	.globl _IEN1_SB_MISCIRQ
+                             52 	.globl _IEN1_SB_WUOPIRQ
+                             53 	.globl _IEN1_SB_SPI_2WIRE
+                             54 	.globl _IEN1_SB_RFIRQ
+                             55 	.globl _IEN1_SB_RFRDY
+                             56 	.globl _P3_SB_D7
+                             57 	.globl _P3_SB_D6
+                             58 	.globl _P3_SB_D5
+                             59 	.globl _P3_SB_D4
+                             60 	.globl _P3_SB_D3
+                             61 	.globl _P3_SB_D2
+                             62 	.globl _P3_SB_D1
+                             63 	.globl _P3_SB_D0
+                             64 	.globl _IEN0_SB_GLOBAL
+                             65 	.globl _IEN0_SB_T2
+                             66 	.globl _IEN0_SB_UART
+                             67 	.globl _IEN0_SB_T1
+                             68 	.globl _IEN0_SB_POFIRQ
+                             69 	.globl _IEN0_SB_T0
+                             70 	.globl _IEN0_SB_IFP
+                             71 	.globl _P2_SB_D7
+                             72 	.globl _P2_SB_D6
+                             73 	.globl _P2_SB_D5
+                             74 	.globl _P2_SB_D4
+                             75 	.globl _P2_SB_D3
+                             76 	.globl _P2_SB_D2
+                             77 	.globl _P2_SB_D1
+                             78 	.globl _P2_SB_D0
+                             79 	.globl _S0CON_SB_SM0
+                             80 	.globl _S0CON_SB_SM1
+                             81 	.globl _S0CON_SB_SM20
+                             82 	.globl _S0CON_SB_REN0
+                             83 	.globl _S0CON_SB_TB80
+                             84 	.globl _S0CON_SB_RB80
+                             85 	.globl _S0CON_SB_TI0
+                             86 	.globl _S0CON_SB_RI0
+                             87 	.globl _P1_SB_D7
+                             88 	.globl _P1_SB_D6
+                             89 	.globl _P1_SB_D5
+                             90 	.globl _P1_SB_D4
+                             91 	.globl _P1_SB_D3
+                             92 	.globl _P1_SB_D2
+                             93 	.globl _P1_SB_D1
+                             94 	.globl _P1_SB_D0
+                             95 	.globl _TCON_SB_TF1
+                             96 	.globl _TCON_SB_TR1
+                             97 	.globl _TCON_SB_TF0
+                             98 	.globl _TCON_SB_TR0
+                             99 	.globl _TCON_SB_IE1
+                            100 	.globl _TCON_SB_IT1
+                            101 	.globl _TCON_SB_IE0
+                            102 	.globl _TCON_SB_IT0
+                            103 	.globl _P0_SB_D7
+                            104 	.globl _P0_SB_D6
+                            105 	.globl _P0_SB_D5
+                            106 	.globl _P0_SB_D4
+                            107 	.globl _P0_SB_D3
+                            108 	.globl _P0_SB_D2
+                            109 	.globl _P0_SB_D1
+                            110 	.globl _P0_SB_D0
+                            111 	.globl _ADCDAT
+                            112 	.globl _S0REL
+                            113 	.globl _T2
+                            114 	.globl _T1
+                            115 	.globl _T0
+                            116 	.globl _CRC
+                            117 	.globl _CC3
+                            118 	.globl _CC2
+                            119 	.globl _CC1
+                            120 	.globl _SPIMDAT
+                            121 	.globl _SPIMSTAT
+                            122 	.globl _SPIMCON1
+                            123 	.globl _SPIMCON0
+                            124 	.globl _FCR
+                            125 	.globl _FPCR
+                            126 	.globl _FSR
+                            127 	.globl _B
+                            128 	.globl _ARCON
+                            129 	.globl _MD5
+                            130 	.globl _MD4
+                            131 	.globl _MD3
+                            132 	.globl _MD2
+                            133 	.globl _MD1
+                            134 	.globl _MD0
+                            135 	.globl _RFCON
+                            136 	.globl _SPIRDAT
+                            137 	.globl _SPIRSTAT
+                            138 	.globl _SPIRCON1
+                            139 	.globl _SPIRCON0
+                            140 	.globl _W2CON0
+                            141 	.globl _W2CON1
+                            142 	.globl _ACC
+                            143 	.globl _CCPDATO
+                            144 	.globl _CCPDATIB
+                            145 	.globl _CCPDATIA
+                            146 	.globl _POFCON
+                            147 	.globl _COMPCON
+                            148 	.globl _W2DAT
+                            149 	.globl _W2SADR
+                            150 	.globl _ADCON
+                            151 	.globl _RNGDAT
+                            152 	.globl _RNGCTL
+                            153 	.globl _ADCDATL
+                            154 	.globl _ADCDATH
+                            155 	.globl _ADCCON1
+                            156 	.globl _ADCCON2
+                            157 	.globl _ADCCON3
+                            158 	.globl _PSW
+                            159 	.globl _WUOPC0
+                            160 	.globl _WUOPC1
+                            161 	.globl _TH2
+                            162 	.globl _TL2
+                            163 	.globl _CRCH
+                            164 	.globl _CRCL
+                            165 	.globl __XPAGE
+                            166 	.globl _MPAGE
+                            167 	.globl _T2CON
+                            168 	.globl _CCH3
+                            169 	.globl _CCL3
+                            170 	.globl _CCH2
+                            171 	.globl _CCL2
+                            172 	.globl _CCH1
+                            173 	.globl _CCL1
+                            174 	.globl _CCEN
+                            175 	.globl _IRCON
+                            176 	.globl _SPISDAT
+                            177 	.globl _SPISSTAT
+                            178 	.globl _SPISCON1
+                            179 	.globl _SPISCON0
+                            180 	.globl _S0RELH
+                            181 	.globl _IP1
+                            182 	.globl _IEN1
+                            183 	.globl _SPISRDSZ
+                            184 	.globl _RTC2CPT00
+                            185 	.globl _RTC2CMP1
+                            186 	.globl _RTC2CMP0
+                            187 	.globl _RTC2CON
+                            188 	.globl _PWMCON
+                            189 	.globl _RSTREAS
+                            190 	.globl _P3
+                            191 	.globl _WDSV
+                            192 	.globl _OPMCON
+                            193 	.globl _CLKLFCTRL
+                            194 	.globl _RTC2CPT10
+                            195 	.globl _RTC2CPT01
+                            196 	.globl _S0RELL
+                            197 	.globl _IP0
+                            198 	.globl _IEN0
+                            199 	.globl _MEMCON
+                            200 	.globl _INTEXP
+                            201 	.globl _WUCON
+                            202 	.globl _PWRDWN
+                            203 	.globl _CLKCTRL
+                            204 	.globl _PWMDC1
+                            205 	.globl _PWMDC0
+                            206 	.globl _P2
+                            207 	.globl _P1CON
+                            208 	.globl _P0CON
+                            209 	.globl _S0BUF
+                            210 	.globl _S0CON
+                            211 	.globl _P2CON
+                            212 	.globl _P3DIR
+                            213 	.globl _P2DIR
+                            214 	.globl _P1DIR
+                            215 	.globl _P0DIR
+                            216 	.globl _DPS
+                            217 	.globl _P1
+                            218 	.globl _P3CON
+                            219 	.globl _TH1
+                            220 	.globl _TH0
+                            221 	.globl _TL1
+                            222 	.globl _TL0
+                            223 	.globl _TMOD
+                            224 	.globl _TCON
+                            225 	.globl _PCON
+                            226 	.globl _DPH1
+                            227 	.globl _DPL1
+                            228 	.globl _DPH
+                            229 	.globl _DPL
+                            230 	.globl _SP
+                            231 	.globl _P0
+                            232 	.globl _timer2_configure_auto_reload_calc_PARM_2
+                            233 	.globl _timer2_configure_auto_reload_calc
+                            234 ;--------------------------------------------------------
+                            235 ; special function registers
+                            236 ;--------------------------------------------------------
+                            237 	.area RSEG    (ABS,DATA)
+   0000                     238 	.org 0x0000
+                    0080    239 _P0	=	0x0080
+                    0081    240 _SP	=	0x0081
+                    0082    241 _DPL	=	0x0082
+                    0083    242 _DPH	=	0x0083
+                    0084    243 _DPL1	=	0x0084
+                    0085    244 _DPH1	=	0x0085
+                    0087    245 _PCON	=	0x0087
+                    0088    246 _TCON	=	0x0088
+                    0089    247 _TMOD	=	0x0089
+                    008A    248 _TL0	=	0x008a
+                    008B    249 _TL1	=	0x008b
+                    008C    250 _TH0	=	0x008c
+                    008D    251 _TH1	=	0x008d
+                    008F    252 _P3CON	=	0x008f
+                    0090    253 _P1	=	0x0090
+                    0092    254 _DPS	=	0x0092
+                    0093    255 _P0DIR	=	0x0093
+                    0094    256 _P1DIR	=	0x0094
+                    0095    257 _P2DIR	=	0x0095
+                    0096    258 _P3DIR	=	0x0096
+                    0097    259 _P2CON	=	0x0097
+                    0098    260 _S0CON	=	0x0098
+                    0099    261 _S0BUF	=	0x0099
+                    009E    262 _P0CON	=	0x009e
+                    009F    263 _P1CON	=	0x009f
+                    00A0    264 _P2	=	0x00a0
+                    00A1    265 _PWMDC0	=	0x00a1
+                    00A2    266 _PWMDC1	=	0x00a2
+                    00A3    267 _CLKCTRL	=	0x00a3
+                    00A4    268 _PWRDWN	=	0x00a4
+                    00A5    269 _WUCON	=	0x00a5
+                    00A6    270 _INTEXP	=	0x00a6
+                    00A7    271 _MEMCON	=	0x00a7
+                    00A8    272 _IEN0	=	0x00a8
+                    00A9    273 _IP0	=	0x00a9
+                    00AA    274 _S0RELL	=	0x00aa
+                    00AB    275 _RTC2CPT01	=	0x00ab
+                    00AC    276 _RTC2CPT10	=	0x00ac
+                    00AD    277 _CLKLFCTRL	=	0x00ad
+                    00AE    278 _OPMCON	=	0x00ae
+                    00AF    279 _WDSV	=	0x00af
+                    00B0    280 _P3	=	0x00b0
+                    00B1    281 _RSTREAS	=	0x00b1
+                    00B2    282 _PWMCON	=	0x00b2
+                    00B3    283 _RTC2CON	=	0x00b3
+                    00B4    284 _RTC2CMP0	=	0x00b4
+                    00B5    285 _RTC2CMP1	=	0x00b5
+                    00B6    286 _RTC2CPT00	=	0x00b6
+                    00B7    287 _SPISRDSZ	=	0x00b7
+                    00B8    288 _IEN1	=	0x00b8
+                    00B9    289 _IP1	=	0x00b9
+                    00BA    290 _S0RELH	=	0x00ba
+                    00BC    291 _SPISCON0	=	0x00bc
+                    00BD    292 _SPISCON1	=	0x00bd
+                    00BE    293 _SPISSTAT	=	0x00be
+                    00BF    294 _SPISDAT	=	0x00bf
+                    00C0    295 _IRCON	=	0x00c0
+                    00C1    296 _CCEN	=	0x00c1
+                    00C2    297 _CCL1	=	0x00c2
+                    00C3    298 _CCH1	=	0x00c3
+                    00C4    299 _CCL2	=	0x00c4
+                    00C5    300 _CCH2	=	0x00c5
+                    00C6    301 _CCL3	=	0x00c6
+                    00C7    302 _CCH3	=	0x00c7
+                    00C8    303 _T2CON	=	0x00c8
+                    00C9    304 _MPAGE	=	0x00c9
+                    00C9    305 __XPAGE	=	0x00c9
+                    00CA    306 _CRCL	=	0x00ca
+                    00CB    307 _CRCH	=	0x00cb
+                    00CC    308 _TL2	=	0x00cc
+                    00CD    309 _TH2	=	0x00cd
+                    00CE    310 _WUOPC1	=	0x00ce
+                    00CF    311 _WUOPC0	=	0x00cf
+                    00D0    312 _PSW	=	0x00d0
+                    00D1    313 _ADCCON3	=	0x00d1
+                    00D2    314 _ADCCON2	=	0x00d2
+                    00D3    315 _ADCCON1	=	0x00d3
+                    00D4    316 _ADCDATH	=	0x00d4
+                    00D5    317 _ADCDATL	=	0x00d5
+                    00D6    318 _RNGCTL	=	0x00d6
+                    00D7    319 _RNGDAT	=	0x00d7
+                    00D8    320 _ADCON	=	0x00d8
+                    00D9    321 _W2SADR	=	0x00d9
+                    00DA    322 _W2DAT	=	0x00da
+                    00DB    323 _COMPCON	=	0x00db
+                    00DC    324 _POFCON	=	0x00dc
+                    00DD    325 _CCPDATIA	=	0x00dd
+                    00DE    326 _CCPDATIB	=	0x00de
+                    00DF    327 _CCPDATO	=	0x00df
+                    00E0    328 _ACC	=	0x00e0
+                    00E1    329 _W2CON1	=	0x00e1
+                    00E2    330 _W2CON0	=	0x00e2
+                    00E4    331 _SPIRCON0	=	0x00e4
+                    00E5    332 _SPIRCON1	=	0x00e5
+                    00E6    333 _SPIRSTAT	=	0x00e6
+                    00E7    334 _SPIRDAT	=	0x00e7
+                    00E8    335 _RFCON	=	0x00e8
+                    00E9    336 _MD0	=	0x00e9
+                    00EA    337 _MD1	=	0x00ea
+                    00EB    338 _MD2	=	0x00eb
+                    00EC    339 _MD3	=	0x00ec
+                    00ED    340 _MD4	=	0x00ed
+                    00EE    341 _MD5	=	0x00ee
+                    00EF    342 _ARCON	=	0x00ef
+                    00F0    343 _B	=	0x00f0
+                    00F8    344 _FSR	=	0x00f8
+                    00F9    345 _FPCR	=	0x00f9
+                    00FA    346 _FCR	=	0x00fa
+                    00FC    347 _SPIMCON0	=	0x00fc
+                    00FD    348 _SPIMCON1	=	0x00fd
+                    00FE    349 _SPIMSTAT	=	0x00fe
+                    00FF    350 _SPIMDAT	=	0x00ff
+                    C3C2    351 _CC1	=	0xc3c2
+                    C5C4    352 _CC2	=	0xc5c4
+                    C7C6    353 _CC3	=	0xc7c6
+                    CBCA    354 _CRC	=	0xcbca
+                    8C8A    355 _T0	=	0x8c8a
+                    8D8B    356 _T1	=	0x8d8b
+                    CDCC    357 _T2	=	0xcdcc
+                    BAAA    358 _S0REL	=	0xbaaa
+                    D4D5    359 _ADCDAT	=	0xd4d5
+                            360 ;--------------------------------------------------------
+                            361 ; special function bits
+                            362 ;--------------------------------------------------------
+                            363 	.area RSEG    (ABS,DATA)
+   0000                     364 	.org 0x0000
+                    0080    365 _P0_SB_D0	=	0x0080
+                    0081    366 _P0_SB_D1	=	0x0081
+                    0082    367 _P0_SB_D2	=	0x0082
+                    0083    368 _P0_SB_D3	=	0x0083
+                    0084    369 _P0_SB_D4	=	0x0084
+                    0085    370 _P0_SB_D5	=	0x0085
+                    0086    371 _P0_SB_D6	=	0x0086
+                    0087    372 _P0_SB_D7	=	0x0087
+                    0088    373 _TCON_SB_IT0	=	0x0088
+                    0089    374 _TCON_SB_IE0	=	0x0089
+                    008A    375 _TCON_SB_IT1	=	0x008a
+                    008B    376 _TCON_SB_IE1	=	0x008b
+                    008C    377 _TCON_SB_TR0	=	0x008c
+                    008D    378 _TCON_SB_TF0	=	0x008d
+                    008E    379 _TCON_SB_TR1	=	0x008e
+                    008F    380 _TCON_SB_TF1	=	0x008f
+                    0090    381 _P1_SB_D0	=	0x0090
+                    0091    382 _P1_SB_D1	=	0x0091
+                    0092    383 _P1_SB_D2	=	0x0092
+                    0093    384 _P1_SB_D3	=	0x0093
+                    0094    385 _P1_SB_D4	=	0x0094
+                    0095    386 _P1_SB_D5	=	0x0095
+                    0096    387 _P1_SB_D6	=	0x0096
+                    0097    388 _P1_SB_D7	=	0x0097
+                    0098    389 _S0CON_SB_RI0	=	0x0098
+                    0099    390 _S0CON_SB_TI0	=	0x0099
+                    009A    391 _S0CON_SB_RB80	=	0x009a
+                    009B    392 _S0CON_SB_TB80	=	0x009b
+                    009C    393 _S0CON_SB_REN0	=	0x009c
+                    009D    394 _S0CON_SB_SM20	=	0x009d
+                    009E    395 _S0CON_SB_SM1	=	0x009e
+                    009F    396 _S0CON_SB_SM0	=	0x009f
+                    00A0    397 _P2_SB_D0	=	0x00a0
+                    00A1    398 _P2_SB_D1	=	0x00a1
+                    00A2    399 _P2_SB_D2	=	0x00a2
+                    00A3    400 _P2_SB_D3	=	0x00a3
+                    00A4    401 _P2_SB_D4	=	0x00a4
+                    00A5    402 _P2_SB_D5	=	0x00a5
+                    00A6    403 _P2_SB_D6	=	0x00a6
+                    00A7    404 _P2_SB_D7	=	0x00a7
+                    00A8    405 _IEN0_SB_IFP	=	0x00a8
+                    00A9    406 _IEN0_SB_T0	=	0x00a9
+                    00AA    407 _IEN0_SB_POFIRQ	=	0x00aa
+                    00AB    408 _IEN0_SB_T1	=	0x00ab
+                    00AC    409 _IEN0_SB_UART	=	0x00ac
+                    00AD    410 _IEN0_SB_T2	=	0x00ad
+                    00AF    411 _IEN0_SB_GLOBAL	=	0x00af
+                    00B0    412 _P3_SB_D0	=	0x00b0
+                    00B1    413 _P3_SB_D1	=	0x00b1
+                    00B2    414 _P3_SB_D2	=	0x00b2
+                    00B3    415 _P3_SB_D3	=	0x00b3
+                    00B4    416 _P3_SB_D4	=	0x00b4
+                    00B5    417 _P3_SB_D5	=	0x00b5
+                    00B6    418 _P3_SB_D6	=	0x00b6
+                    00B7    419 _P3_SB_D7	=	0x00b7
+                    00B8    420 _IEN1_SB_RFRDY	=	0x00b8
+                    00B9    421 _IEN1_SB_RFIRQ	=	0x00b9
+                    00BA    422 _IEN1_SB_SPI_2WIRE	=	0x00ba
+                    00BB    423 _IEN1_SB_WUOPIRQ	=	0x00bb
+                    00BC    424 _IEN1_SB_MISCIRQ	=	0x00bc
+                    00BD    425 _IEN1_SB_TICK	=	0x00bd
+                    00BF    426 _IEN1_SB_T2EXTRLD	=	0x00bf
+                    00C0    427 _IRCON_SB_RFRDY	=	0x00c0
+                    00C1    428 _IRCON_SB_RFIRQ	=	0x00c1
+                    00C2    429 _IRCON_SB_SPI_2WIRE	=	0x00c2
+                    00C3    430 _IRCON_SB_WUOPIRQ	=	0x00c3
+                    00C4    431 _IRCON_SB_MISCIRQ	=	0x00c4
+                    00C5    432 _IRCON_SB_TICK	=	0x00c5
+                    00C6    433 _IRCON_SB_TF2	=	0x00c6
+                    00C7    434 _IRCON_SB_EXF2	=	0x00c7
+                    00C8    435 _T2CON_SB_T2I0	=	0x00c8
+                    00C9    436 _T2CON_SB_T2I1	=	0x00c9
+                    00CA    437 _T2CON_SB_T2CM	=	0x00ca
+                    00CB    438 _T2CON_SB_T2R0	=	0x00cb
+                    00CC    439 _T2CON_SB_T2R1	=	0x00cc
+                    00CD    440 _T2CON_SB_I2FR	=	0x00cd
+                    00CE    441 _T2CON_SB_I3FR	=	0x00ce
+                    00CF    442 _T2CON_SB_T2PS	=	0x00cf
+                    00D7    443 _PSW_SB_CY	=	0x00d7
+                    00D6    444 _PSW_SB_AC	=	0x00d6
+                    00D5    445 _PSW_SB_F0	=	0x00d5
+                    00D4    446 _PSW_SB_RS1	=	0x00d4
+                    00D3    447 _PSW_SB_RS0	=	0x00d3
+                    00D2    448 _PSW_SB_OV	=	0x00d2
+                    00D1    449 _PSW_SB_F1	=	0x00d1
+                    00D0    450 _PSW_SB_P	=	0x00d0
+                    00DF    451 _ADCON_SB_BD	=	0x00df
+                    00E8    452 _RFCON_SB_RFCE	=	0x00e8
+                    00E9    453 _RFCON_SB_RFCSN	=	0x00e9
+                    00EA    454 _RFCON_SB_RFCKEN	=	0x00ea
+                    00FA    455 _FSR_SB_RDISMB	=	0x00fa
+                    00FB    456 _FSR_SB_INFEN	=	0x00fb
+                    00FC    457 _FSR_SB_RDYN	=	0x00fc
+                    00FD    458 _FSR_SB_WEN	=	0x00fd
+                    00FE    459 _FSR_SB_STP	=	0x00fe
+                    00FF    460 _FSR_SB_ENDBG	=	0x00ff
+                            461 ;--------------------------------------------------------
+                            462 ; overlayable register banks
+                            463 ;--------------------------------------------------------
+                            464 	.area REG_BANK_0	(REL,OVR,DATA)
+   0000                     465 	.ds 8
+                            466 ;--------------------------------------------------------
+                            467 ; internal ram data
+                            468 ;--------------------------------------------------------
+                            469 	.area DSEG    (DATA)
+   0000                     470 _timer2_configure_auto_reload_calc_sloc0_1_0:
+   0000                     471 	.ds 4
+   0004                     472 _timer2_configure_auto_reload_calc_sloc1_1_0:
+   0004                     473 	.ds 4
+   0008                     474 _timer2_configure_auto_reload_calc_sloc2_1_0:
+   0008                     475 	.ds 2
+   000A                     476 _timer2_configure_auto_reload_calc_sloc3_1_0:
+   000A                     477 	.ds 4
+                            478 ;--------------------------------------------------------
+                            479 ; overlayable items in internal ram 
+                            480 ;--------------------------------------------------------
+                            481 	.area OSEG    (OVR,DATA)
+                            482 ;--------------------------------------------------------
+                            483 ; indirectly addressable internal ram data
+                            484 ;--------------------------------------------------------
+                            485 	.area ISEG    (DATA)
+                            486 ;--------------------------------------------------------
+                            487 ; absolute internal ram data
+                            488 ;--------------------------------------------------------
+                            489 	.area IABS    (ABS,DATA)
+                            490 	.area IABS    (ABS,DATA)
+                            491 ;--------------------------------------------------------
+                            492 ; bit data
+                            493 ;--------------------------------------------------------
+                            494 	.area BSEG    (BIT)
+                            495 ;--------------------------------------------------------
+                            496 ; paged external ram data
+                            497 ;--------------------------------------------------------
+                            498 	.area PSEG    (PAG,XDATA)
+                            499 ;--------------------------------------------------------
+                            500 ; external ram data
+                            501 ;--------------------------------------------------------
+                            502 	.area XSEG    (XDATA)
+   0000                     503 _timer2_configure_auto_reload_calc_PARM_2:
+   0000                     504 	.ds 4
+   0004                     505 _timer2_configure_auto_reload_calc_timer2_config_options_1_1:
+   0004                     506 	.ds 2
+                            507 ;--------------------------------------------------------
+                            508 ; absolute external ram data
+                            509 ;--------------------------------------------------------
+                            510 	.area XABS    (ABS,XDATA)
+                            511 ;--------------------------------------------------------
+                            512 ; external initialized ram data
+                            513 ;--------------------------------------------------------
+                            514 	.area XISEG   (XDATA)
+                            515 	.area HOME    (CODE)
+                            516 	.area GSINIT0 (CODE)
+                            517 	.area GSINIT1 (CODE)
+                            518 	.area GSINIT2 (CODE)
+                            519 	.area GSINIT3 (CODE)
+                            520 	.area GSINIT4 (CODE)
+                            521 	.area GSINIT5 (CODE)
+                            522 	.area GSINIT  (CODE)
+                            523 	.area GSFINAL (CODE)
+                            524 	.area CSEG    (CODE)
+                            525 ;--------------------------------------------------------
+                            526 ; global & static initialisations
+                            527 ;--------------------------------------------------------
+                            528 	.area HOME    (CODE)
+                            529 	.area GSINIT  (CODE)
+                            530 	.area GSFINAL (CODE)
+                            531 	.area GSINIT  (CODE)
+                            532 ;--------------------------------------------------------
+                            533 ; Home
+                            534 ;--------------------------------------------------------
+                            535 	.area HOME    (CODE)
+                            536 	.area HOME    (CODE)
+                            537 ;--------------------------------------------------------
+                            538 ; code
+                            539 ;--------------------------------------------------------
+                            540 	.area CSEG    (CODE)
+                            541 ;------------------------------------------------------------
+                            542 ;Allocation info for local variables in function 'timer2_configure_auto_reload_calc'
+                            543 ;------------------------------------------------------------
+                            544 ;sloc0                     Allocated with name '_timer2_configure_auto_reload_calc_sloc0_1_0'
+                            545 ;sloc1                     Allocated with name '_timer2_configure_auto_reload_calc_sloc1_1_0'
+                            546 ;sloc2                     Allocated with name '_timer2_configure_auto_reload_calc_sloc2_1_0'
+                            547 ;sloc3                     Allocated with name '_timer2_configure_auto_reload_calc_sloc3_1_0'
+                            548 ;auto_reload_or_compare_period_in_seconds Allocated with name '_timer2_configure_auto_reload_calc_PARM_2'
+                            549 ;timer2_config_options     Allocated with name '_timer2_configure_auto_reload_calc_timer2_config_options_1_1'
+                            550 ;calc_crc_with_ps_12       Allocated with name '_timer2_configure_auto_reload_calc_calc_crc_with_ps_12_1_1'
+                            551 ;calc_crc_with_ps_24       Allocated with name '_timer2_configure_auto_reload_calc_calc_crc_with_ps_24_1_1'
+                            552 ;calc_overflow_period_with_ps_12 Allocated with name '_timer2_configure_auto_reload_calc_calc_overflow_period_with_ps_12_1_1'
+                            553 ;calc_overflow_period_with_ps_24 Allocated with name '_timer2_configure_auto_reload_calc_calc_overflow_period_with_ps_24_1_1'
+                            554 ;error_calc_overflow_period_with_ps_12 Allocated with name '_timer2_configure_auto_reload_calc_error_calc_overflow_period_with_ps_12_1_1'
+                            555 ;error_calc_overflow_period_with_ps_24 Allocated with name '_timer2_configure_auto_reload_calc_error_calc_overflow_period_with_ps_24_1_1'
+                            556 ;------------------------------------------------------------
+                            557 ;	src/timer2_configure_auto_reload_calc.c:48: void timer2_configure_auto_reload_calc(uint16_t timer2_config_options, float auto_reload_or_compare_period_in_seconds)
+                            558 ;	-----------------------------------------
+                            559 ;	 function timer2_configure_auto_reload_calc
+                            560 ;	-----------------------------------------
+   0000                     561 _timer2_configure_auto_reload_calc:
+                    0007    562 	ar7 = 0x07
+                    0006    563 	ar6 = 0x06
+                    0005    564 	ar5 = 0x05
+                    0004    565 	ar4 = 0x04
+                    0003    566 	ar3 = 0x03
+                    0002    567 	ar2 = 0x02
+                    0001    568 	ar1 = 0x01
+                    0000    569 	ar0 = 0x00
+   0000 AF 83               570 	mov	r7,dph
+   0002 E5 82               571 	mov	a,dpl
+   0004 90s00r04            572 	mov	dptr,#_timer2_configure_auto_reload_calc_timer2_config_options_1_1
+   0007 F0                  573 	movx	@dptr,a
+   0008 A3                  574 	inc	dptr
+   0009 EF                  575 	mov	a,r7
+   000A F0                  576 	movx	@dptr,a
+                            577 ;	src/timer2_configure_auto_reload_calc.c:54: calc_crc_with_ps_12 = timer2_calc_crc_val(auto_reload_or_compare_period_in_seconds, 0);
+   000B 90s00r00            578 	mov	dptr,#_timer2_configure_auto_reload_calc_PARM_2
+   000E E0                  579 	movx	a,@dptr
+   000F FC                  580 	mov	r4,a
+   0010 A3                  581 	inc	dptr
+   0011 E0                  582 	movx	a,@dptr
+   0012 FD                  583 	mov	r5,a
+   0013 A3                  584 	inc	dptr
+   0014 E0                  585 	movx	a,@dptr
+   0015 FE                  586 	mov	r6,a
+   0016 A3                  587 	inc	dptr
+   0017 E0                  588 	movx	a,@dptr
+   0018 FF                  589 	mov	r7,a
+   0019 90s00r00            590 	mov	dptr,#_timer2_calc_crc_val_PARM_2
+   001C E4                  591 	clr	a
+   001D F0                  592 	movx	@dptr,a
+   001E 8C 82               593 	mov	dpl,r4
+   0020 8D 83               594 	mov	dph,r5
+   0022 8E F0               595 	mov	b,r6
+   0024 EF                  596 	mov	a,r7
+   0025 C0 07               597 	push	ar7
+   0027 C0 06               598 	push	ar6
+   0029 C0 05               599 	push	ar5
+   002B C0 04               600 	push	ar4
+   002D 12s00r00            601 	lcall	_timer2_calc_crc_val
+   0030 AA 82               602 	mov	r2,dpl
+   0032 AB 83               603 	mov	r3,dph
+   0034 D0 04               604 	pop	ar4
+   0036 D0 05               605 	pop	ar5
+   0038 D0 06               606 	pop	ar6
+   003A D0 07               607 	pop	ar7
+                            608 ;	src/timer2_configure_auto_reload_calc.c:55: calc_crc_with_ps_24 = timer2_calc_crc_val(auto_reload_or_compare_period_in_seconds, 1);
+   003C 90s00r00            609 	mov	dptr,#_timer2_calc_crc_val_PARM_2
+   003F 74 01               610 	mov	a,#0x01
+   0041 F0                  611 	movx	@dptr,a
+   0042 8C 82               612 	mov	dpl,r4
+   0044 8D 83               613 	mov	dph,r5
+   0046 8E F0               614 	mov	b,r6
+   0048 EF                  615 	mov	a,r7
+   0049 C0 07               616 	push	ar7
+   004B C0 06               617 	push	ar6
+   004D C0 05               618 	push	ar5
+   004F C0 04               619 	push	ar4
+   0051 C0 03               620 	push	ar3
+   0053 C0 02               621 	push	ar2
+   0055 12s00r00            622 	lcall	_timer2_calc_crc_val
+   0058 85 82*08            623 	mov	_timer2_configure_auto_reload_calc_sloc2_1_0,dpl
+   005B 85 83*09            624 	mov	(_timer2_configure_auto_reload_calc_sloc2_1_0 + 1),dph
+   005E D0 02               625 	pop	ar2
+   0060 D0 03               626 	pop	ar3
+                            627 ;	src/timer2_configure_auto_reload_calc.c:57: calc_overflow_period_with_ps_12 = timer2_calc_actual_period(calc_crc_with_ps_12, 0);
+   0062 90s00r00            628 	mov	dptr,#_timer2_calc_actual_period_PARM_2
+   0065 E4                  629 	clr	a
+   0066 F0                  630 	movx	@dptr,a
+   0067 8A 82               631 	mov	dpl,r2
+   0069 8B 83               632 	mov	dph,r3
+   006B C0 03               633 	push	ar3
+   006D C0 02               634 	push	ar2
+   006F 12s00r00            635 	lcall	_timer2_calc_actual_period
+   0072 85 82*00            636 	mov	_timer2_configure_auto_reload_calc_sloc0_1_0,dpl
+   0075 85 83*01            637 	mov	(_timer2_configure_auto_reload_calc_sloc0_1_0 + 1),dph
+   0078 85 F0*02            638 	mov	(_timer2_configure_auto_reload_calc_sloc0_1_0 + 2),b
+   007B F5*03               639 	mov	(_timer2_configure_auto_reload_calc_sloc0_1_0 + 3),a
+   007D D0 02               640 	pop	ar2
+   007F D0 03               641 	pop	ar3
+                            642 ;	src/timer2_configure_auto_reload_calc.c:58: calc_overflow_period_with_ps_24 = timer2_calc_actual_period(calc_crc_with_ps_12, 1);
+   0081 90s00r00            643 	mov	dptr,#_timer2_calc_actual_period_PARM_2
+   0084 74 01               644 	mov	a,#0x01
+   0086 F0                  645 	movx	@dptr,a
+   0087 8A 82               646 	mov	dpl,r2
+   0089 8B 83               647 	mov	dph,r3
+   008B C0 03               648 	push	ar3
+   008D C0 02               649 	push	ar2
+   008F 12s00r00            650 	lcall	_timer2_calc_actual_period
+   0092 85 82*04            651 	mov	_timer2_configure_auto_reload_calc_sloc1_1_0,dpl
+   0095 85 83*05            652 	mov	(_timer2_configure_auto_reload_calc_sloc1_1_0 + 1),dph
+   0098 85 F0*06            653 	mov	(_timer2_configure_auto_reload_calc_sloc1_1_0 + 2),b
+   009B F5*07               654 	mov	(_timer2_configure_auto_reload_calc_sloc1_1_0 + 3),a
+   009D D0 02               655 	pop	ar2
+   009F D0 03               656 	pop	ar3
+   00A1 D0 04               657 	pop	ar4
+   00A3 D0 05               658 	pop	ar5
+   00A5 D0 06               659 	pop	ar6
+   00A7 D0 07               660 	pop	ar7
+                            661 ;	src/timer2_configure_auto_reload_calc.c:61: error_calc_overflow_period_with_ps_12 = (calc_overflow_period_with_ps_12 > auto_reload_or_compare_period_in_seconds) ? (calc_overflow_period_with_ps_12 - auto_reload_or_compare_period_in_seconds) : (auto_reload_or_compare_period_in_seconds - calc_overflow_period_with_ps_12);
+   00A9 C0 07               662 	push	ar7
+   00AB C0 06               663 	push	ar6
+   00AD C0 05               664 	push	ar5
+   00AF C0 04               665 	push	ar4
+   00B1 C0 03               666 	push	ar3
+   00B3 C0 02               667 	push	ar2
+   00B5 C0 04               668 	push	ar4
+   00B7 C0 05               669 	push	ar5
+   00B9 C0 06               670 	push	ar6
+   00BB C0 07               671 	push	ar7
+   00BD 85*00 82            672 	mov	dpl,_timer2_configure_auto_reload_calc_sloc0_1_0
+   00C0 85*01 83            673 	mov	dph,(_timer2_configure_auto_reload_calc_sloc0_1_0 + 1)
+   00C3 85*02 F0            674 	mov	b,(_timer2_configure_auto_reload_calc_sloc0_1_0 + 2)
+   00C6 E5*03               675 	mov	a,(_timer2_configure_auto_reload_calc_sloc0_1_0 + 3)
+   00C8 12s00r00            676 	lcall	___fsgt
+   00CB A9 82               677 	mov	r1,dpl
+   00CD E5 81               678 	mov	a,sp
+   00CF 24 FC               679 	add	a,#0xfc
+   00D1 F5 81               680 	mov	sp,a
+   00D3 D0 02               681 	pop	ar2
+   00D5 D0 03               682 	pop	ar3
+   00D7 D0 04               683 	pop	ar4
+   00D9 D0 05               684 	pop	ar5
+   00DB D0 06               685 	pop	ar6
+   00DD D0 07               686 	pop	ar7
+   00DF E9                  687 	mov	a,r1
+   00E0 60 41               688 	jz	00106$
+   00E2 C0 07               689 	push	ar7
+   00E4 C0 06               690 	push	ar6
+   00E6 C0 05               691 	push	ar5
+   00E8 C0 04               692 	push	ar4
+   00EA C0 03               693 	push	ar3
+   00EC C0 02               694 	push	ar2
+   00EE C0 04               695 	push	ar4
+   00F0 C0 05               696 	push	ar5
+   00F2 C0 06               697 	push	ar6
+   00F4 C0 07               698 	push	ar7
+   00F6 85*00 82            699 	mov	dpl,_timer2_configure_auto_reload_calc_sloc0_1_0
+   00F9 85*01 83            700 	mov	dph,(_timer2_configure_auto_reload_calc_sloc0_1_0 + 1)
+   00FC 85*02 F0            701 	mov	b,(_timer2_configure_auto_reload_calc_sloc0_1_0 + 2)
+   00FF E5*03               702 	mov	a,(_timer2_configure_auto_reload_calc_sloc0_1_0 + 3)
+   0101 12s00r00            703 	lcall	___fssub
+   0104 85 82*0A            704 	mov	_timer2_configure_auto_reload_calc_sloc3_1_0,dpl
+   0107 85 83*0B            705 	mov	(_timer2_configure_auto_reload_calc_sloc3_1_0 + 1),dph
+   010A 85 F0*0C            706 	mov	(_timer2_configure_auto_reload_calc_sloc3_1_0 + 2),b
+   010D F5*0D               707 	mov	(_timer2_configure_auto_reload_calc_sloc3_1_0 + 3),a
+   010F E5 81               708 	mov	a,sp
+   0111 24 FC               709 	add	a,#0xfc
+   0113 F5 81               710 	mov	sp,a
+   0115 D0 02               711 	pop	ar2
+   0117 D0 03               712 	pop	ar3
+   0119 D0 04               713 	pop	ar4
+   011B D0 05               714 	pop	ar5
+   011D D0 06               715 	pop	ar6
+   011F D0 07               716 	pop	ar7
+   0121 80 3B               717 	sjmp	00107$
+   0123                     718 00106$:
+   0123 C0 07               719 	push	ar7
+   0125 C0 06               720 	push	ar6
+   0127 C0 05               721 	push	ar5
+   0129 C0 04               722 	push	ar4
+   012B C0 03               723 	push	ar3
+   012D C0 02               724 	push	ar2
+   012F C0*00               725 	push	_timer2_configure_auto_reload_calc_sloc0_1_0
+   0131 C0*01               726 	push	(_timer2_configure_auto_reload_calc_sloc0_1_0 + 1)
+   0133 C0*02               727 	push	(_timer2_configure_auto_reload_calc_sloc0_1_0 + 2)
+   0135 C0*03               728 	push	(_timer2_configure_auto_reload_calc_sloc0_1_0 + 3)
+   0137 8C 82               729 	mov	dpl,r4
+   0139 8D 83               730 	mov	dph,r5
+   013B 8E F0               731 	mov	b,r6
+   013D EF                  732 	mov	a,r7
+   013E 12s00r00            733 	lcall	___fssub
+   0141 85 82*0A            734 	mov	_timer2_configure_auto_reload_calc_sloc3_1_0,dpl
+   0144 85 83*0B            735 	mov	(_timer2_configure_auto_reload_calc_sloc3_1_0 + 1),dph
+   0147 85 F0*0C            736 	mov	(_timer2_configure_auto_reload_calc_sloc3_1_0 + 2),b
+   014A F5*0D               737 	mov	(_timer2_configure_auto_reload_calc_sloc3_1_0 + 3),a
+   014C E5 81               738 	mov	a,sp
+   014E 24 FC               739 	add	a,#0xfc
+   0150 F5 81               740 	mov	sp,a
+   0152 D0 02               741 	pop	ar2
+   0154 D0 03               742 	pop	ar3
+   0156 D0 04               743 	pop	ar4
+   0158 D0 05               744 	pop	ar5
+   015A D0 06               745 	pop	ar6
+   015C D0 07               746 	pop	ar7
+   015E                     747 00107$:
+                            748 ;	src/timer2_configure_auto_reload_calc.c:62: error_calc_overflow_period_with_ps_24 = (calc_overflow_period_with_ps_24 > auto_reload_or_compare_period_in_seconds) ? (calc_overflow_period_with_ps_24 - auto_reload_or_compare_period_in_seconds) : (auto_reload_or_compare_period_in_seconds - calc_overflow_period_with_ps_24);
+   015E C0 07               749 	push	ar7
+   0160 C0 06               750 	push	ar6
+   0162 C0 05               751 	push	ar5
+   0164 C0 04               752 	push	ar4
+   0166 C0 03               753 	push	ar3
+   0168 C0 02               754 	push	ar2
+   016A C0 04               755 	push	ar4
+   016C C0 05               756 	push	ar5
+   016E C0 06               757 	push	ar6
+   0170 C0 07               758 	push	ar7
+   0172 85*04 82            759 	mov	dpl,_timer2_configure_auto_reload_calc_sloc1_1_0
+   0175 85*05 83            760 	mov	dph,(_timer2_configure_auto_reload_calc_sloc1_1_0 + 1)
+   0178 85*06 F0            761 	mov	b,(_timer2_configure_auto_reload_calc_sloc1_1_0 + 2)
+   017B E5*07               762 	mov	a,(_timer2_configure_auto_reload_calc_sloc1_1_0 + 3)
+   017D 12s00r00            763 	lcall	___fsgt
+   0180 A9 82               764 	mov	r1,dpl
+   0182 E5 81               765 	mov	a,sp
+   0184 24 FC               766 	add	a,#0xfc
+   0186 F5 81               767 	mov	sp,a
+   0188 D0 02               768 	pop	ar2
+   018A D0 03               769 	pop	ar3
+   018C D0 04               770 	pop	ar4
+   018E D0 05               771 	pop	ar5
+   0190 D0 06               772 	pop	ar6
+   0192 D0 07               773 	pop	ar7
+   0194 E9                  774 	mov	a,r1
+   0195 60 31               775 	jz	00108$
+   0197 C0 03               776 	push	ar3
+   0199 C0 02               777 	push	ar2
+   019B C0 04               778 	push	ar4
+   019D C0 05               779 	push	ar5
+   019F C0 06               780 	push	ar6
+   01A1 C0 07               781 	push	ar7
+   01A3 85*04 82            782 	mov	dpl,_timer2_configure_auto_reload_calc_sloc1_1_0
+   01A6 85*05 83            783 	mov	dph,(_timer2_configure_auto_reload_calc_sloc1_1_0 + 1)
+   01A9 85*06 F0            784 	mov	b,(_timer2_configure_auto_reload_calc_sloc1_1_0 + 2)
+   01AC E5*07               785 	mov	a,(_timer2_configure_auto_reload_calc_sloc1_1_0 + 3)
+   01AE 12s00r00            786 	lcall	___fssub
+   01B1 85 82*00            787 	mov	_timer2_configure_auto_reload_calc_sloc0_1_0,dpl
+   01B4 85 83*01            788 	mov	(_timer2_configure_auto_reload_calc_sloc0_1_0 + 1),dph
+   01B7 85 F0*02            789 	mov	(_timer2_configure_auto_reload_calc_sloc0_1_0 + 2),b
+   01BA F5*03               790 	mov	(_timer2_configure_auto_reload_calc_sloc0_1_0 + 3),a
+   01BC E5 81               791 	mov	a,sp
+   01BE 24 FC               792 	add	a,#0xfc
+   01C0 F5 81               793 	mov	sp,a
+   01C2 D0 02               794 	pop	ar2
+   01C4 D0 03               795 	pop	ar3
+   01C6 80 2B               796 	sjmp	00109$
+   01C8                     797 00108$:
+   01C8 C0 03               798 	push	ar3
+   01CA C0 02               799 	push	ar2
+   01CC C0*04               800 	push	_timer2_configure_auto_reload_calc_sloc1_1_0
+   01CE C0*05               801 	push	(_timer2_configure_auto_reload_calc_sloc1_1_0 + 1)
+   01D0 C0*06               802 	push	(_timer2_configure_auto_reload_calc_sloc1_1_0 + 2)
+   01D2 C0*07               803 	push	(_timer2_configure_auto_reload_calc_sloc1_1_0 + 3)
+   01D4 8C 82               804 	mov	dpl,r4
+   01D6 8D 83               805 	mov	dph,r5
+   01D8 8E F0               806 	mov	b,r6
+   01DA EF                  807 	mov	a,r7
+   01DB 12s00r00            808 	lcall	___fssub
+   01DE 85 82*00            809 	mov	_timer2_configure_auto_reload_calc_sloc0_1_0,dpl
+   01E1 85 83*01            810 	mov	(_timer2_configure_auto_reload_calc_sloc0_1_0 + 1),dph
+   01E4 85 F0*02            811 	mov	(_timer2_configure_auto_reload_calc_sloc0_1_0 + 2),b
+   01E7 F5*03               812 	mov	(_timer2_configure_auto_reload_calc_sloc0_1_0 + 3),a
+   01E9 E5 81               813 	mov	a,sp
+   01EB 24 FC               814 	add	a,#0xfc
+   01ED F5 81               815 	mov	sp,a
+   01EF D0 02               816 	pop	ar2
+   01F1 D0 03               817 	pop	ar3
+   01F3                     818 00109$:
+                            819 ;	src/timer2_configure_auto_reload_calc.c:65: if(error_calc_overflow_period_with_ps_12 < error_calc_overflow_period_with_ps_24)
+   01F3 C0 03               820 	push	ar3
+   01F5 C0 02               821 	push	ar2
+   01F7 C0*00               822 	push	_timer2_configure_auto_reload_calc_sloc0_1_0
+   01F9 C0*01               823 	push	(_timer2_configure_auto_reload_calc_sloc0_1_0 + 1)
+   01FB C0*02               824 	push	(_timer2_configure_auto_reload_calc_sloc0_1_0 + 2)
+   01FD C0*03               825 	push	(_timer2_configure_auto_reload_calc_sloc0_1_0 + 3)
+   01FF 85*0A 82            826 	mov	dpl,_timer2_configure_auto_reload_calc_sloc3_1_0
+   0202 85*0B 83            827 	mov	dph,(_timer2_configure_auto_reload_calc_sloc3_1_0 + 1)
+   0205 85*0C F0            828 	mov	b,(_timer2_configure_auto_reload_calc_sloc3_1_0 + 2)
+   0208 E5*0D               829 	mov	a,(_timer2_configure_auto_reload_calc_sloc3_1_0 + 3)
+   020A 12s00r00            830 	lcall	___fslt
+   020D AF 82               831 	mov	r7,dpl
+   020F E5 81               832 	mov	a,sp
+   0211 24 FC               833 	add	a,#0xfc
+   0213 F5 81               834 	mov	sp,a
+   0215 D0 02               835 	pop	ar2
+   0217 D0 03               836 	pop	ar3
+   0219 EF                  837 	mov	a,r7
+   021A 60 1A               838 	jz	00102$
+                            839 ;	src/timer2_configure_auto_reload_calc.c:67: timer2_configure_manual_reload_calc(((timer2_config_options & ~TIMER2_CONFIG_OPTION_PRESCALER_DIV_MASK) | TIMER2_CONFIG_OPTION_PRESCALER_DIV_12),
+   021C 90s00r04            840 	mov	dptr,#_timer2_configure_auto_reload_calc_timer2_config_options_1_1
+   021F E0                  841 	movx	a,@dptr
+   0220 FE                  842 	mov	r6,a
+   0221 A3                  843 	inc	dptr
+   0222 E0                  844 	movx	a,@dptr
+   0223 FF                  845 	mov	r7,a
+   0224 53 06 7F            846 	anl	ar6,#0x7F
+                            847 ;	src/timer2_configure_auto_reload_calc.c:68: calc_crc_with_ps_12);
+   0227 90s00r00            848 	mov	dptr,#_timer2_configure_manual_reload_calc_PARM_2
+   022A EA                  849 	mov	a,r2
+   022B F0                  850 	movx	@dptr,a
+   022C A3                  851 	inc	dptr
+   022D EB                  852 	mov	a,r3
+   022E F0                  853 	movx	@dptr,a
+   022F 8E 82               854 	mov	dpl,r6
+   0231 8F 83               855 	mov	dph,r7
+   0233 02s00r00            856 	ljmp	_timer2_configure_manual_reload_calc
+   0236                     857 00102$:
+                            858 ;	src/timer2_configure_auto_reload_calc.c:72: timer2_configure_manual_reload_calc(((timer2_config_options & ~TIMER2_CONFIG_OPTION_PRESCALER_DIV_MASK) | TIMER2_CONFIG_OPTION_PRESCALER_DIV_24),
+   0236 90s00r04            859 	mov	dptr,#_timer2_configure_auto_reload_calc_timer2_config_options_1_1
+   0239 E0                  860 	movx	a,@dptr
+   023A FE                  861 	mov	r6,a
+   023B A3                  862 	inc	dptr
+   023C E0                  863 	movx	a,@dptr
+   023D FF                  864 	mov	r7,a
+   023E 53 06 7F            865 	anl	ar6,#0x7F
+   0241 43 06 80            866 	orl	ar6,#0x80
+                            867 ;	src/timer2_configure_auto_reload_calc.c:73: calc_crc_with_ps_24);
+   0244 90s00r00            868 	mov	dptr,#_timer2_configure_manual_reload_calc_PARM_2
+   0247 E5*08               869 	mov	a,_timer2_configure_auto_reload_calc_sloc2_1_0
+   0249 F0                  870 	movx	@dptr,a
+   024A A3                  871 	inc	dptr
+   024B E5*09               872 	mov	a,(_timer2_configure_auto_reload_calc_sloc2_1_0 + 1)
+   024D F0                  873 	movx	@dptr,a
+   024E 8E 82               874 	mov	dpl,r6
+   0250 8F 83               875 	mov	dph,r7
+   0252 02s00r00            876 	ljmp	_timer2_configure_manual_reload_calc
+                            877 	.area CSEG    (CODE)
+                            878 	.area CONST   (CODE)
+                            879 	.area XINIT   (CODE)
+                            880 	.area CABS    (ABS,CODE)

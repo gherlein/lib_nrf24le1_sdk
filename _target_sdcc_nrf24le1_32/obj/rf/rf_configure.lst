@@ -1,0 +1,1243 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 2.9.0 #5416 (Feb  3 2010) (UNIX)
+                              4 ; This file was generated Tue Jun 19 17:33:17 2012
+                              5 ;--------------------------------------------------------
+                              6 	.module rf_configure
+                              7 	.optsdcc -mmcs51 --model-large
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl _FSR_SB_ENDBG
+                             13 	.globl _FSR_SB_STP
+                             14 	.globl _FSR_SB_WEN
+                             15 	.globl _FSR_SB_RDYN
+                             16 	.globl _FSR_SB_INFEN
+                             17 	.globl _FSR_SB_RDISMB
+                             18 	.globl _RFCON_SB_RFCKEN
+                             19 	.globl _RFCON_SB_RFCSN
+                             20 	.globl _RFCON_SB_RFCE
+                             21 	.globl _ADCON_SB_BD
+                             22 	.globl _PSW_SB_P
+                             23 	.globl _PSW_SB_F1
+                             24 	.globl _PSW_SB_OV
+                             25 	.globl _PSW_SB_RS0
+                             26 	.globl _PSW_SB_RS1
+                             27 	.globl _PSW_SB_F0
+                             28 	.globl _PSW_SB_AC
+                             29 	.globl _PSW_SB_CY
+                             30 	.globl _T2CON_SB_T2PS
+                             31 	.globl _T2CON_SB_I3FR
+                             32 	.globl _T2CON_SB_I2FR
+                             33 	.globl _T2CON_SB_T2R1
+                             34 	.globl _T2CON_SB_T2R0
+                             35 	.globl _T2CON_SB_T2CM
+                             36 	.globl _T2CON_SB_T2I1
+                             37 	.globl _T2CON_SB_T2I0
+                             38 	.globl _IRCON_SB_EXF2
+                             39 	.globl _IRCON_SB_TF2
+                             40 	.globl _IRCON_SB_TICK
+                             41 	.globl _IRCON_SB_MISCIRQ
+                             42 	.globl _IRCON_SB_WUOPIRQ
+                             43 	.globl _IRCON_SB_SPI_2WIRE
+                             44 	.globl _IRCON_SB_RFIRQ
+                             45 	.globl _IRCON_SB_RFRDY
+                             46 	.globl _IEN1_SB_T2EXTRLD
+                             47 	.globl _IEN1_SB_TICK
+                             48 	.globl _IEN1_SB_MISCIRQ
+                             49 	.globl _IEN1_SB_WUOPIRQ
+                             50 	.globl _IEN1_SB_SPI_2WIRE
+                             51 	.globl _IEN1_SB_RFIRQ
+                             52 	.globl _IEN1_SB_RFRDY
+                             53 	.globl _P3_SB_D7
+                             54 	.globl _P3_SB_D6
+                             55 	.globl _P3_SB_D5
+                             56 	.globl _P3_SB_D4
+                             57 	.globl _P3_SB_D3
+                             58 	.globl _P3_SB_D2
+                             59 	.globl _P3_SB_D1
+                             60 	.globl _P3_SB_D0
+                             61 	.globl _IEN0_SB_GLOBAL
+                             62 	.globl _IEN0_SB_T2
+                             63 	.globl _IEN0_SB_UART
+                             64 	.globl _IEN0_SB_T1
+                             65 	.globl _IEN0_SB_POFIRQ
+                             66 	.globl _IEN0_SB_T0
+                             67 	.globl _IEN0_SB_IFP
+                             68 	.globl _P2_SB_D7
+                             69 	.globl _P2_SB_D6
+                             70 	.globl _P2_SB_D5
+                             71 	.globl _P2_SB_D4
+                             72 	.globl _P2_SB_D3
+                             73 	.globl _P2_SB_D2
+                             74 	.globl _P2_SB_D1
+                             75 	.globl _P2_SB_D0
+                             76 	.globl _S0CON_SB_SM0
+                             77 	.globl _S0CON_SB_SM1
+                             78 	.globl _S0CON_SB_SM20
+                             79 	.globl _S0CON_SB_REN0
+                             80 	.globl _S0CON_SB_TB80
+                             81 	.globl _S0CON_SB_RB80
+                             82 	.globl _S0CON_SB_TI0
+                             83 	.globl _S0CON_SB_RI0
+                             84 	.globl _P1_SB_D7
+                             85 	.globl _P1_SB_D6
+                             86 	.globl _P1_SB_D5
+                             87 	.globl _P1_SB_D4
+                             88 	.globl _P1_SB_D3
+                             89 	.globl _P1_SB_D2
+                             90 	.globl _P1_SB_D1
+                             91 	.globl _P1_SB_D0
+                             92 	.globl _TCON_SB_TF1
+                             93 	.globl _TCON_SB_TR1
+                             94 	.globl _TCON_SB_TF0
+                             95 	.globl _TCON_SB_TR0
+                             96 	.globl _TCON_SB_IE1
+                             97 	.globl _TCON_SB_IT1
+                             98 	.globl _TCON_SB_IE0
+                             99 	.globl _TCON_SB_IT0
+                            100 	.globl _P0_SB_D7
+                            101 	.globl _P0_SB_D6
+                            102 	.globl _P0_SB_D5
+                            103 	.globl _P0_SB_D4
+                            104 	.globl _P0_SB_D3
+                            105 	.globl _P0_SB_D2
+                            106 	.globl _P0_SB_D1
+                            107 	.globl _P0_SB_D0
+                            108 	.globl _ADCDAT
+                            109 	.globl _S0REL
+                            110 	.globl _T2
+                            111 	.globl _T1
+                            112 	.globl _T0
+                            113 	.globl _CRC
+                            114 	.globl _CC3
+                            115 	.globl _CC2
+                            116 	.globl _CC1
+                            117 	.globl _SPIMDAT
+                            118 	.globl _SPIMSTAT
+                            119 	.globl _SPIMCON1
+                            120 	.globl _SPIMCON0
+                            121 	.globl _FCR
+                            122 	.globl _FPCR
+                            123 	.globl _FSR
+                            124 	.globl _B
+                            125 	.globl _ARCON
+                            126 	.globl _MD5
+                            127 	.globl _MD4
+                            128 	.globl _MD3
+                            129 	.globl _MD2
+                            130 	.globl _MD1
+                            131 	.globl _MD0
+                            132 	.globl _RFCON
+                            133 	.globl _SPIRDAT
+                            134 	.globl _SPIRSTAT
+                            135 	.globl _SPIRCON1
+                            136 	.globl _SPIRCON0
+                            137 	.globl _W2CON0
+                            138 	.globl _W2CON1
+                            139 	.globl _ACC
+                            140 	.globl _CCPDATO
+                            141 	.globl _CCPDATIB
+                            142 	.globl _CCPDATIA
+                            143 	.globl _POFCON
+                            144 	.globl _COMPCON
+                            145 	.globl _W2DAT
+                            146 	.globl _W2SADR
+                            147 	.globl _ADCON
+                            148 	.globl _RNGDAT
+                            149 	.globl _RNGCTL
+                            150 	.globl _ADCDATL
+                            151 	.globl _ADCDATH
+                            152 	.globl _ADCCON1
+                            153 	.globl _ADCCON2
+                            154 	.globl _ADCCON3
+                            155 	.globl _PSW
+                            156 	.globl _WUOPC0
+                            157 	.globl _WUOPC1
+                            158 	.globl _TH2
+                            159 	.globl _TL2
+                            160 	.globl _CRCH
+                            161 	.globl _CRCL
+                            162 	.globl __XPAGE
+                            163 	.globl _MPAGE
+                            164 	.globl _T2CON
+                            165 	.globl _CCH3
+                            166 	.globl _CCL3
+                            167 	.globl _CCH2
+                            168 	.globl _CCL2
+                            169 	.globl _CCH1
+                            170 	.globl _CCL1
+                            171 	.globl _CCEN
+                            172 	.globl _IRCON
+                            173 	.globl _SPISDAT
+                            174 	.globl _SPISSTAT
+                            175 	.globl _SPISCON1
+                            176 	.globl _SPISCON0
+                            177 	.globl _S0RELH
+                            178 	.globl _IP1
+                            179 	.globl _IEN1
+                            180 	.globl _SPISRDSZ
+                            181 	.globl _RTC2CPT00
+                            182 	.globl _RTC2CMP1
+                            183 	.globl _RTC2CMP0
+                            184 	.globl _RTC2CON
+                            185 	.globl _PWMCON
+                            186 	.globl _RSTREAS
+                            187 	.globl _P3
+                            188 	.globl _WDSV
+                            189 	.globl _OPMCON
+                            190 	.globl _CLKLFCTRL
+                            191 	.globl _RTC2CPT10
+                            192 	.globl _RTC2CPT01
+                            193 	.globl _S0RELL
+                            194 	.globl _IP0
+                            195 	.globl _IEN0
+                            196 	.globl _MEMCON
+                            197 	.globl _INTEXP
+                            198 	.globl _WUCON
+                            199 	.globl _PWRDWN
+                            200 	.globl _CLKCTRL
+                            201 	.globl _PWMDC1
+                            202 	.globl _PWMDC0
+                            203 	.globl _P2
+                            204 	.globl _P1CON
+                            205 	.globl _P0CON
+                            206 	.globl _S0BUF
+                            207 	.globl _S0CON
+                            208 	.globl _P2CON
+                            209 	.globl _P3DIR
+                            210 	.globl _P2DIR
+                            211 	.globl _P1DIR
+                            212 	.globl _P0DIR
+                            213 	.globl _DPS
+                            214 	.globl _P1
+                            215 	.globl _P3CON
+                            216 	.globl _TH1
+                            217 	.globl _TH0
+                            218 	.globl _TL1
+                            219 	.globl _TL0
+                            220 	.globl _TMOD
+                            221 	.globl _TCON
+                            222 	.globl _PCON
+                            223 	.globl _DPH1
+                            224 	.globl _DPL1
+                            225 	.globl _DPH
+                            226 	.globl _DPL
+                            227 	.globl _SP
+                            228 	.globl _P0
+                            229 	.globl _rf_configure_PARM_23
+                            230 	.globl _rf_configure_PARM_22
+                            231 	.globl _rf_configure_PARM_21
+                            232 	.globl _rf_configure_PARM_20
+                            233 	.globl _rf_configure_PARM_19
+                            234 	.globl _rf_configure_PARM_18
+                            235 	.globl _rf_configure_PARM_17
+                            236 	.globl _rf_configure_PARM_16
+                            237 	.globl _rf_configure_PARM_15
+                            238 	.globl _rf_configure_PARM_14
+                            239 	.globl _rf_configure_PARM_13
+                            240 	.globl _rf_configure_PARM_12
+                            241 	.globl _rf_configure_PARM_11
+                            242 	.globl _rf_configure_PARM_10
+                            243 	.globl _rf_configure_PARM_9
+                            244 	.globl _rf_configure_PARM_8
+                            245 	.globl _rf_configure_PARM_7
+                            246 	.globl _rf_configure_PARM_6
+                            247 	.globl _rf_configure_PARM_5
+                            248 	.globl _rf_configure_PARM_4
+                            249 	.globl _rf_configure_PARM_3
+                            250 	.globl _rf_configure_PARM_2
+                            251 	.globl _rf_configure
+                            252 ;--------------------------------------------------------
+                            253 ; special function registers
+                            254 ;--------------------------------------------------------
+                            255 	.area RSEG    (DATA)
+                    0080    256 _P0	=	0x0080
+                    0081    257 _SP	=	0x0081
+                    0082    258 _DPL	=	0x0082
+                    0083    259 _DPH	=	0x0083
+                    0084    260 _DPL1	=	0x0084
+                    0085    261 _DPH1	=	0x0085
+                    0087    262 _PCON	=	0x0087
+                    0088    263 _TCON	=	0x0088
+                    0089    264 _TMOD	=	0x0089
+                    008A    265 _TL0	=	0x008a
+                    008B    266 _TL1	=	0x008b
+                    008C    267 _TH0	=	0x008c
+                    008D    268 _TH1	=	0x008d
+                    008F    269 _P3CON	=	0x008f
+                    0090    270 _P1	=	0x0090
+                    0092    271 _DPS	=	0x0092
+                    0093    272 _P0DIR	=	0x0093
+                    0094    273 _P1DIR	=	0x0094
+                    0095    274 _P2DIR	=	0x0095
+                    0096    275 _P3DIR	=	0x0096
+                    0097    276 _P2CON	=	0x0097
+                    0098    277 _S0CON	=	0x0098
+                    0099    278 _S0BUF	=	0x0099
+                    009E    279 _P0CON	=	0x009e
+                    009F    280 _P1CON	=	0x009f
+                    00A0    281 _P2	=	0x00a0
+                    00A1    282 _PWMDC0	=	0x00a1
+                    00A2    283 _PWMDC1	=	0x00a2
+                    00A3    284 _CLKCTRL	=	0x00a3
+                    00A4    285 _PWRDWN	=	0x00a4
+                    00A5    286 _WUCON	=	0x00a5
+                    00A6    287 _INTEXP	=	0x00a6
+                    00A7    288 _MEMCON	=	0x00a7
+                    00A8    289 _IEN0	=	0x00a8
+                    00A9    290 _IP0	=	0x00a9
+                    00AA    291 _S0RELL	=	0x00aa
+                    00AB    292 _RTC2CPT01	=	0x00ab
+                    00AC    293 _RTC2CPT10	=	0x00ac
+                    00AD    294 _CLKLFCTRL	=	0x00ad
+                    00AE    295 _OPMCON	=	0x00ae
+                    00AF    296 _WDSV	=	0x00af
+                    00B0    297 _P3	=	0x00b0
+                    00B1    298 _RSTREAS	=	0x00b1
+                    00B2    299 _PWMCON	=	0x00b2
+                    00B3    300 _RTC2CON	=	0x00b3
+                    00B4    301 _RTC2CMP0	=	0x00b4
+                    00B5    302 _RTC2CMP1	=	0x00b5
+                    00B6    303 _RTC2CPT00	=	0x00b6
+                    00B7    304 _SPISRDSZ	=	0x00b7
+                    00B8    305 _IEN1	=	0x00b8
+                    00B9    306 _IP1	=	0x00b9
+                    00BA    307 _S0RELH	=	0x00ba
+                    00BC    308 _SPISCON0	=	0x00bc
+                    00BD    309 _SPISCON1	=	0x00bd
+                    00BE    310 _SPISSTAT	=	0x00be
+                    00BF    311 _SPISDAT	=	0x00bf
+                    00C0    312 _IRCON	=	0x00c0
+                    00C1    313 _CCEN	=	0x00c1
+                    00C2    314 _CCL1	=	0x00c2
+                    00C3    315 _CCH1	=	0x00c3
+                    00C4    316 _CCL2	=	0x00c4
+                    00C5    317 _CCH2	=	0x00c5
+                    00C6    318 _CCL3	=	0x00c6
+                    00C7    319 _CCH3	=	0x00c7
+                    00C8    320 _T2CON	=	0x00c8
+                    00C9    321 _MPAGE	=	0x00c9
+                    00C9    322 __XPAGE	=	0x00c9
+                    00CA    323 _CRCL	=	0x00ca
+                    00CB    324 _CRCH	=	0x00cb
+                    00CC    325 _TL2	=	0x00cc
+                    00CD    326 _TH2	=	0x00cd
+                    00CE    327 _WUOPC1	=	0x00ce
+                    00CF    328 _WUOPC0	=	0x00cf
+                    00D0    329 _PSW	=	0x00d0
+                    00D1    330 _ADCCON3	=	0x00d1
+                    00D2    331 _ADCCON2	=	0x00d2
+                    00D3    332 _ADCCON1	=	0x00d3
+                    00D4    333 _ADCDATH	=	0x00d4
+                    00D5    334 _ADCDATL	=	0x00d5
+                    00D6    335 _RNGCTL	=	0x00d6
+                    00D7    336 _RNGDAT	=	0x00d7
+                    00D8    337 _ADCON	=	0x00d8
+                    00D9    338 _W2SADR	=	0x00d9
+                    00DA    339 _W2DAT	=	0x00da
+                    00DB    340 _COMPCON	=	0x00db
+                    00DC    341 _POFCON	=	0x00dc
+                    00DD    342 _CCPDATIA	=	0x00dd
+                    00DE    343 _CCPDATIB	=	0x00de
+                    00DF    344 _CCPDATO	=	0x00df
+                    00E0    345 _ACC	=	0x00e0
+                    00E1    346 _W2CON1	=	0x00e1
+                    00E2    347 _W2CON0	=	0x00e2
+                    00E4    348 _SPIRCON0	=	0x00e4
+                    00E5    349 _SPIRCON1	=	0x00e5
+                    00E6    350 _SPIRSTAT	=	0x00e6
+                    00E7    351 _SPIRDAT	=	0x00e7
+                    00E8    352 _RFCON	=	0x00e8
+                    00E9    353 _MD0	=	0x00e9
+                    00EA    354 _MD1	=	0x00ea
+                    00EB    355 _MD2	=	0x00eb
+                    00EC    356 _MD3	=	0x00ec
+                    00ED    357 _MD4	=	0x00ed
+                    00EE    358 _MD5	=	0x00ee
+                    00EF    359 _ARCON	=	0x00ef
+                    00F0    360 _B	=	0x00f0
+                    00F8    361 _FSR	=	0x00f8
+                    00F9    362 _FPCR	=	0x00f9
+                    00FA    363 _FCR	=	0x00fa
+                    00FC    364 _SPIMCON0	=	0x00fc
+                    00FD    365 _SPIMCON1	=	0x00fd
+                    00FE    366 _SPIMSTAT	=	0x00fe
+                    00FF    367 _SPIMDAT	=	0x00ff
+                    C3C2    368 _CC1	=	0xc3c2
+                    C5C4    369 _CC2	=	0xc5c4
+                    C7C6    370 _CC3	=	0xc7c6
+                    CBCA    371 _CRC	=	0xcbca
+                    8C8A    372 _T0	=	0x8c8a
+                    8D8B    373 _T1	=	0x8d8b
+                    CDCC    374 _T2	=	0xcdcc
+                    BAAA    375 _S0REL	=	0xbaaa
+                    D4D5    376 _ADCDAT	=	0xd4d5
+                            377 ;--------------------------------------------------------
+                            378 ; special function bits
+                            379 ;--------------------------------------------------------
+                            380 	.area RSEG    (DATA)
+                    0080    381 _P0_SB_D0	=	0x0080
+                    0081    382 _P0_SB_D1	=	0x0081
+                    0082    383 _P0_SB_D2	=	0x0082
+                    0083    384 _P0_SB_D3	=	0x0083
+                    0084    385 _P0_SB_D4	=	0x0084
+                    0085    386 _P0_SB_D5	=	0x0085
+                    0086    387 _P0_SB_D6	=	0x0086
+                    0087    388 _P0_SB_D7	=	0x0087
+                    0088    389 _TCON_SB_IT0	=	0x0088
+                    0089    390 _TCON_SB_IE0	=	0x0089
+                    008A    391 _TCON_SB_IT1	=	0x008a
+                    008B    392 _TCON_SB_IE1	=	0x008b
+                    008C    393 _TCON_SB_TR0	=	0x008c
+                    008D    394 _TCON_SB_TF0	=	0x008d
+                    008E    395 _TCON_SB_TR1	=	0x008e
+                    008F    396 _TCON_SB_TF1	=	0x008f
+                    0090    397 _P1_SB_D0	=	0x0090
+                    0091    398 _P1_SB_D1	=	0x0091
+                    0092    399 _P1_SB_D2	=	0x0092
+                    0093    400 _P1_SB_D3	=	0x0093
+                    0094    401 _P1_SB_D4	=	0x0094
+                    0095    402 _P1_SB_D5	=	0x0095
+                    0096    403 _P1_SB_D6	=	0x0096
+                    0097    404 _P1_SB_D7	=	0x0097
+                    0098    405 _S0CON_SB_RI0	=	0x0098
+                    0099    406 _S0CON_SB_TI0	=	0x0099
+                    009A    407 _S0CON_SB_RB80	=	0x009a
+                    009B    408 _S0CON_SB_TB80	=	0x009b
+                    009C    409 _S0CON_SB_REN0	=	0x009c
+                    009D    410 _S0CON_SB_SM20	=	0x009d
+                    009E    411 _S0CON_SB_SM1	=	0x009e
+                    009F    412 _S0CON_SB_SM0	=	0x009f
+                    00A0    413 _P2_SB_D0	=	0x00a0
+                    00A1    414 _P2_SB_D1	=	0x00a1
+                    00A2    415 _P2_SB_D2	=	0x00a2
+                    00A3    416 _P2_SB_D3	=	0x00a3
+                    00A4    417 _P2_SB_D4	=	0x00a4
+                    00A5    418 _P2_SB_D5	=	0x00a5
+                    00A6    419 _P2_SB_D6	=	0x00a6
+                    00A7    420 _P2_SB_D7	=	0x00a7
+                    00A8    421 _IEN0_SB_IFP	=	0x00a8
+                    00A9    422 _IEN0_SB_T0	=	0x00a9
+                    00AA    423 _IEN0_SB_POFIRQ	=	0x00aa
+                    00AB    424 _IEN0_SB_T1	=	0x00ab
+                    00AC    425 _IEN0_SB_UART	=	0x00ac
+                    00AD    426 _IEN0_SB_T2	=	0x00ad
+                    00AF    427 _IEN0_SB_GLOBAL	=	0x00af
+                    00B0    428 _P3_SB_D0	=	0x00b0
+                    00B1    429 _P3_SB_D1	=	0x00b1
+                    00B2    430 _P3_SB_D2	=	0x00b2
+                    00B3    431 _P3_SB_D3	=	0x00b3
+                    00B4    432 _P3_SB_D4	=	0x00b4
+                    00B5    433 _P3_SB_D5	=	0x00b5
+                    00B6    434 _P3_SB_D6	=	0x00b6
+                    00B7    435 _P3_SB_D7	=	0x00b7
+                    00B8    436 _IEN1_SB_RFRDY	=	0x00b8
+                    00B9    437 _IEN1_SB_RFIRQ	=	0x00b9
+                    00BA    438 _IEN1_SB_SPI_2WIRE	=	0x00ba
+                    00BB    439 _IEN1_SB_WUOPIRQ	=	0x00bb
+                    00BC    440 _IEN1_SB_MISCIRQ	=	0x00bc
+                    00BD    441 _IEN1_SB_TICK	=	0x00bd
+                    00BF    442 _IEN1_SB_T2EXTRLD	=	0x00bf
+                    00C0    443 _IRCON_SB_RFRDY	=	0x00c0
+                    00C1    444 _IRCON_SB_RFIRQ	=	0x00c1
+                    00C2    445 _IRCON_SB_SPI_2WIRE	=	0x00c2
+                    00C3    446 _IRCON_SB_WUOPIRQ	=	0x00c3
+                    00C4    447 _IRCON_SB_MISCIRQ	=	0x00c4
+                    00C5    448 _IRCON_SB_TICK	=	0x00c5
+                    00C6    449 _IRCON_SB_TF2	=	0x00c6
+                    00C7    450 _IRCON_SB_EXF2	=	0x00c7
+                    00C8    451 _T2CON_SB_T2I0	=	0x00c8
+                    00C9    452 _T2CON_SB_T2I1	=	0x00c9
+                    00CA    453 _T2CON_SB_T2CM	=	0x00ca
+                    00CB    454 _T2CON_SB_T2R0	=	0x00cb
+                    00CC    455 _T2CON_SB_T2R1	=	0x00cc
+                    00CD    456 _T2CON_SB_I2FR	=	0x00cd
+                    00CE    457 _T2CON_SB_I3FR	=	0x00ce
+                    00CF    458 _T2CON_SB_T2PS	=	0x00cf
+                    00D7    459 _PSW_SB_CY	=	0x00d7
+                    00D6    460 _PSW_SB_AC	=	0x00d6
+                    00D5    461 _PSW_SB_F0	=	0x00d5
+                    00D4    462 _PSW_SB_RS1	=	0x00d4
+                    00D3    463 _PSW_SB_RS0	=	0x00d3
+                    00D2    464 _PSW_SB_OV	=	0x00d2
+                    00D1    465 _PSW_SB_F1	=	0x00d1
+                    00D0    466 _PSW_SB_P	=	0x00d0
+                    00DF    467 _ADCON_SB_BD	=	0x00df
+                    00E8    468 _RFCON_SB_RFCE	=	0x00e8
+                    00E9    469 _RFCON_SB_RFCSN	=	0x00e9
+                    00EA    470 _RFCON_SB_RFCKEN	=	0x00ea
+                    00FA    471 _FSR_SB_RDISMB	=	0x00fa
+                    00FB    472 _FSR_SB_INFEN	=	0x00fb
+                    00FC    473 _FSR_SB_RDYN	=	0x00fc
+                    00FD    474 _FSR_SB_WEN	=	0x00fd
+                    00FE    475 _FSR_SB_STP	=	0x00fe
+                    00FF    476 _FSR_SB_ENDBG	=	0x00ff
+                            477 ;--------------------------------------------------------
+                            478 ; overlayable register banks
+                            479 ;--------------------------------------------------------
+                            480 	.area REG_BANK_0	(REL,OVR,DATA)
+   0000                     481 	.ds 8
+                            482 ;--------------------------------------------------------
+                            483 ; internal ram data
+                            484 ;--------------------------------------------------------
+                            485 	.area DSEG    (DATA)
+                            486 ;--------------------------------------------------------
+                            487 ; overlayable items in internal ram 
+                            488 ;--------------------------------------------------------
+                            489 	.area OSEG    (OVR,DATA)
+                            490 ;--------------------------------------------------------
+                            491 ; indirectly addressable internal ram data
+                            492 ;--------------------------------------------------------
+                            493 	.area ISEG    (DATA)
+                            494 ;--------------------------------------------------------
+                            495 ; absolute internal ram data
+                            496 ;--------------------------------------------------------
+                            497 	.area IABS    (ABS,DATA)
+                            498 	.area IABS    (ABS,DATA)
+                            499 ;--------------------------------------------------------
+                            500 ; bit data
+                            501 ;--------------------------------------------------------
+                            502 	.area BSEG    (BIT)
+                            503 ;--------------------------------------------------------
+                            504 ; paged external ram data
+                            505 ;--------------------------------------------------------
+                            506 	.area PSEG    (PAG,XDATA)
+                            507 ;--------------------------------------------------------
+                            508 ; external ram data
+                            509 ;--------------------------------------------------------
+                            510 	.area XSEG    (XDATA)
+   0000                     511 _rf_configure_PARM_2:
+   0000                     512 	.ds 1
+   0001                     513 _rf_configure_PARM_3:
+   0001                     514 	.ds 1
+   0002                     515 _rf_configure_PARM_4:
+   0002                     516 	.ds 1
+   0003                     517 _rf_configure_PARM_5:
+   0003                     518 	.ds 1
+   0004                     519 _rf_configure_PARM_6:
+   0004                     520 	.ds 1
+   0005                     521 _rf_configure_PARM_7:
+   0005                     522 	.ds 1
+   0006                     523 _rf_configure_PARM_8:
+   0006                     524 	.ds 1
+   0007                     525 _rf_configure_PARM_9:
+   0007                     526 	.ds 3
+   000A                     527 _rf_configure_PARM_10:
+   000A                     528 	.ds 3
+   000D                     529 _rf_configure_PARM_11:
+   000D                     530 	.ds 1
+   000E                     531 _rf_configure_PARM_12:
+   000E                     532 	.ds 1
+   000F                     533 _rf_configure_PARM_13:
+   000F                     534 	.ds 1
+   0010                     535 _rf_configure_PARM_14:
+   0010                     536 	.ds 1
+   0011                     537 _rf_configure_PARM_15:
+   0011                     538 	.ds 3
+   0014                     539 _rf_configure_PARM_16:
+   0014                     540 	.ds 1
+   0015                     541 _rf_configure_PARM_17:
+   0015                     542 	.ds 1
+   0016                     543 _rf_configure_PARM_18:
+   0016                     544 	.ds 1
+   0017                     545 _rf_configure_PARM_19:
+   0017                     546 	.ds 1
+   0018                     547 _rf_configure_PARM_20:
+   0018                     548 	.ds 1
+   0019                     549 _rf_configure_PARM_21:
+   0019                     550 	.ds 1
+   001A                     551 _rf_configure_PARM_22:
+   001A                     552 	.ds 1
+   001B                     553 _rf_configure_PARM_23:
+   001B                     554 	.ds 1
+   001C                     555 _rf_configure_config_1_1:
+   001C                     556 	.ds 1
+   001D                     557 _rf_configure_buffer_1_1:
+   001D                     558 	.ds 5
+                            559 ;--------------------------------------------------------
+                            560 ; absolute external ram data
+                            561 ;--------------------------------------------------------
+                            562 	.area XABS    (ABS,XDATA)
+                            563 ;--------------------------------------------------------
+                            564 ; external initialized ram data
+                            565 ;--------------------------------------------------------
+                            566 	.area XISEG   (XDATA)
+                            567 	.area HOME    (CODE)
+                            568 	.area GSINIT0 (CODE)
+                            569 	.area GSINIT1 (CODE)
+                            570 	.area GSINIT2 (CODE)
+                            571 	.area GSINIT3 (CODE)
+                            572 	.area GSINIT4 (CODE)
+                            573 	.area GSINIT5 (CODE)
+                            574 	.area GSINIT  (CODE)
+                            575 	.area GSFINAL (CODE)
+                            576 	.area CSEG    (CODE)
+                            577 ;--------------------------------------------------------
+                            578 ; global & static initialisations
+                            579 ;--------------------------------------------------------
+                            580 	.area HOME    (CODE)
+                            581 	.area GSINIT  (CODE)
+                            582 	.area GSFINAL (CODE)
+                            583 	.area GSINIT  (CODE)
+                            584 ;--------------------------------------------------------
+                            585 ; Home
+                            586 ;--------------------------------------------------------
+                            587 	.area HOME    (CODE)
+                            588 	.area HOME    (CODE)
+                            589 ;--------------------------------------------------------
+                            590 ; code
+                            591 ;--------------------------------------------------------
+                            592 	.area CSEG    (CODE)
+                            593 ;------------------------------------------------------------
+                            594 ;Allocation info for local variables in function 'rf_configure'
+                            595 ;------------------------------------------------------------
+                            596 ;opt_rx_active_mode        Allocated with name '_rf_configure_PARM_2'
+                            597 ;en_aa                     Allocated with name '_rf_configure_PARM_3'
+                            598 ;en_rxaddr                 Allocated with name '_rf_configure_PARM_4'
+                            599 ;setup_aw                  Allocated with name '_rf_configure_PARM_5'
+                            600 ;setup_retr                Allocated with name '_rf_configure_PARM_6'
+                            601 ;rf_ch                     Allocated with name '_rf_configure_PARM_7'
+                            602 ;rf_setup                  Allocated with name '_rf_configure_PARM_8'
+                            603 ;rx_addr_p0                Allocated with name '_rf_configure_PARM_9'
+                            604 ;rx_addr_p1                Allocated with name '_rf_configure_PARM_10'
+                            605 ;rx_addr_p2                Allocated with name '_rf_configure_PARM_11'
+                            606 ;rx_addr_p3                Allocated with name '_rf_configure_PARM_12'
+                            607 ;rx_addr_p4                Allocated with name '_rf_configure_PARM_13'
+                            608 ;rx_addr_p5                Allocated with name '_rf_configure_PARM_14'
+                            609 ;tx_addr                   Allocated with name '_rf_configure_PARM_15'
+                            610 ;rx_pw_p0                  Allocated with name '_rf_configure_PARM_16'
+                            611 ;rx_pw_p1                  Allocated with name '_rf_configure_PARM_17'
+                            612 ;rx_pw_p2                  Allocated with name '_rf_configure_PARM_18'
+                            613 ;rx_pw_p3                  Allocated with name '_rf_configure_PARM_19'
+                            614 ;rx_pw_p4                  Allocated with name '_rf_configure_PARM_20'
+                            615 ;rx_pw_p5                  Allocated with name '_rf_configure_PARM_21'
+                            616 ;dynpd                     Allocated with name '_rf_configure_PARM_22'
+                            617 ;feature                   Allocated with name '_rf_configure_PARM_23'
+                            618 ;config                    Allocated with name '_rf_configure_config_1_1'
+                            619 ;buffer                    Allocated with name '_rf_configure_buffer_1_1'
+                            620 ;------------------------------------------------------------
+                            621 ;	src/rf_configure.c:89: void rf_configure(uint8_t config,
+                            622 ;	-----------------------------------------
+                            623 ;	 function rf_configure
+                            624 ;	-----------------------------------------
+   0000                     625 _rf_configure:
+                    0002    626 	ar2 = 0x02
+                    0003    627 	ar3 = 0x03
+                    0004    628 	ar4 = 0x04
+                    0005    629 	ar5 = 0x05
+                    0006    630 	ar6 = 0x06
+                    0007    631 	ar7 = 0x07
+                    0000    632 	ar0 = 0x00
+                    0001    633 	ar1 = 0x01
+   0000 E5 82               634 	mov	a,dpl
+   0002 90s00r1C            635 	mov	dptr,#_rf_configure_config_1_1
+   0005 F0                  636 	movx	@dptr,a
+                            637 ;	src/rf_configure.c:116: rf_spi_configure_enable();
+   0006 12s00r00            638 	lcall	_rf_spi_configure_enable
+                            639 ;	src/rf_configure.c:118: buffer[0] = en_aa;
+   0009 90s00r01            640 	mov	dptr,#_rf_configure_PARM_3
+   000C E0                  641 	movx	a,@dptr
+   000D 90s00r1D            642 	mov	dptr,#_rf_configure_buffer_1_1
+   0010 F0                  643 	movx	@dptr,a
+                            644 ;	src/rf_configure.c:119: rf_write_register(RF_EN_AA, buffer, 1);
+   0011 90s00r00            645 	mov	dptr,#_rf_write_register_PARM_2
+   0014 74r1D               646 	mov	a,#_rf_configure_buffer_1_1
+   0016 F0                  647 	movx	@dptr,a
+   0017 A3                  648 	inc	dptr
+   0018 74s00               649 	mov	a,#(_rf_configure_buffer_1_1 >> 8)
+   001A F0                  650 	movx	@dptr,a
+   001B A3                  651 	inc	dptr
+   001C E4                  652 	clr	a
+   001D F0                  653 	movx	@dptr,a
+   001E 90s00r00            654 	mov	dptr,#_rf_write_register_PARM_3
+   0021 74 01               655 	mov	a,#0x01
+   0023 F0                  656 	movx	@dptr,a
+   0024 E4                  657 	clr	a
+   0025 A3                  658 	inc	dptr
+   0026 F0                  659 	movx	@dptr,a
+   0027 75 82 01            660 	mov	dpl,#0x01
+   002A 12s00r00            661 	lcall	_rf_write_register
+                            662 ;	src/rf_configure.c:121: buffer[0] = en_rxaddr;
+   002D 90s00r02            663 	mov	dptr,#_rf_configure_PARM_4
+   0030 E0                  664 	movx	a,@dptr
+   0031 90s00r1D            665 	mov	dptr,#_rf_configure_buffer_1_1
+   0034 F0                  666 	movx	@dptr,a
+                            667 ;	src/rf_configure.c:122: rf_write_register(RF_EN_RXADDR, buffer, 1);
+   0035 90s00r00            668 	mov	dptr,#_rf_write_register_PARM_2
+   0038 74r1D               669 	mov	a,#_rf_configure_buffer_1_1
+   003A F0                  670 	movx	@dptr,a
+   003B A3                  671 	inc	dptr
+   003C 74s00               672 	mov	a,#(_rf_configure_buffer_1_1 >> 8)
+   003E F0                  673 	movx	@dptr,a
+   003F A3                  674 	inc	dptr
+   0040 E4                  675 	clr	a
+   0041 F0                  676 	movx	@dptr,a
+   0042 90s00r00            677 	mov	dptr,#_rf_write_register_PARM_3
+   0045 74 01               678 	mov	a,#0x01
+   0047 F0                  679 	movx	@dptr,a
+   0048 E4                  680 	clr	a
+   0049 A3                  681 	inc	dptr
+   004A F0                  682 	movx	@dptr,a
+   004B 75 82 02            683 	mov	dpl,#0x02
+   004E 12s00r00            684 	lcall	_rf_write_register
+                            685 ;	src/rf_configure.c:124: buffer[0] = setup_aw;
+   0051 90s00r03            686 	mov	dptr,#_rf_configure_PARM_5
+   0054 E0                  687 	movx	a,@dptr
+   0055 90s00r1D            688 	mov	dptr,#_rf_configure_buffer_1_1
+   0058 F0                  689 	movx	@dptr,a
+                            690 ;	src/rf_configure.c:125: rf_write_register(RF_SETUP_AW, buffer, 1);
+   0059 90s00r00            691 	mov	dptr,#_rf_write_register_PARM_2
+   005C 74r1D               692 	mov	a,#_rf_configure_buffer_1_1
+   005E F0                  693 	movx	@dptr,a
+   005F A3                  694 	inc	dptr
+   0060 74s00               695 	mov	a,#(_rf_configure_buffer_1_1 >> 8)
+   0062 F0                  696 	movx	@dptr,a
+   0063 A3                  697 	inc	dptr
+   0064 E4                  698 	clr	a
+   0065 F0                  699 	movx	@dptr,a
+   0066 90s00r00            700 	mov	dptr,#_rf_write_register_PARM_3
+   0069 74 01               701 	mov	a,#0x01
+   006B F0                  702 	movx	@dptr,a
+   006C E4                  703 	clr	a
+   006D A3                  704 	inc	dptr
+   006E F0                  705 	movx	@dptr,a
+   006F 75 82 03            706 	mov	dpl,#0x03
+   0072 12s00r00            707 	lcall	_rf_write_register
+                            708 ;	src/rf_configure.c:127: buffer[0] = setup_retr;
+   0075 90s00r04            709 	mov	dptr,#_rf_configure_PARM_6
+   0078 E0                  710 	movx	a,@dptr
+   0079 90s00r1D            711 	mov	dptr,#_rf_configure_buffer_1_1
+   007C F0                  712 	movx	@dptr,a
+                            713 ;	src/rf_configure.c:128: rf_write_register(RF_SETUP_RETR, buffer, 1);
+   007D 90s00r00            714 	mov	dptr,#_rf_write_register_PARM_2
+   0080 74r1D               715 	mov	a,#_rf_configure_buffer_1_1
+   0082 F0                  716 	movx	@dptr,a
+   0083 A3                  717 	inc	dptr
+   0084 74s00               718 	mov	a,#(_rf_configure_buffer_1_1 >> 8)
+   0086 F0                  719 	movx	@dptr,a
+   0087 A3                  720 	inc	dptr
+   0088 E4                  721 	clr	a
+   0089 F0                  722 	movx	@dptr,a
+   008A 90s00r00            723 	mov	dptr,#_rf_write_register_PARM_3
+   008D 74 01               724 	mov	a,#0x01
+   008F F0                  725 	movx	@dptr,a
+   0090 E4                  726 	clr	a
+   0091 A3                  727 	inc	dptr
+   0092 F0                  728 	movx	@dptr,a
+   0093 75 82 04            729 	mov	dpl,#0x04
+   0096 12s00r00            730 	lcall	_rf_write_register
+                            731 ;	src/rf_configure.c:130: buffer[0] = rf_ch;
+   0099 90s00r05            732 	mov	dptr,#_rf_configure_PARM_7
+   009C E0                  733 	movx	a,@dptr
+   009D 90s00r1D            734 	mov	dptr,#_rf_configure_buffer_1_1
+   00A0 F0                  735 	movx	@dptr,a
+                            736 ;	src/rf_configure.c:131: rf_write_register(RF_RF_CH, buffer, 1);
+   00A1 90s00r00            737 	mov	dptr,#_rf_write_register_PARM_2
+   00A4 74r1D               738 	mov	a,#_rf_configure_buffer_1_1
+   00A6 F0                  739 	movx	@dptr,a
+   00A7 A3                  740 	inc	dptr
+   00A8 74s00               741 	mov	a,#(_rf_configure_buffer_1_1 >> 8)
+   00AA F0                  742 	movx	@dptr,a
+   00AB A3                  743 	inc	dptr
+   00AC E4                  744 	clr	a
+   00AD F0                  745 	movx	@dptr,a
+   00AE 90s00r00            746 	mov	dptr,#_rf_write_register_PARM_3
+   00B1 74 01               747 	mov	a,#0x01
+   00B3 F0                  748 	movx	@dptr,a
+   00B4 E4                  749 	clr	a
+   00B5 A3                  750 	inc	dptr
+   00B6 F0                  751 	movx	@dptr,a
+   00B7 75 82 05            752 	mov	dpl,#0x05
+   00BA 12s00r00            753 	lcall	_rf_write_register
+                            754 ;	src/rf_configure.c:133: buffer[0] = rf_setup;
+   00BD 90s00r06            755 	mov	dptr,#_rf_configure_PARM_8
+   00C0 E0                  756 	movx	a,@dptr
+   00C1 90s00r1D            757 	mov	dptr,#_rf_configure_buffer_1_1
+   00C4 F0                  758 	movx	@dptr,a
+                            759 ;	src/rf_configure.c:134: rf_write_register(RF_RF_SETUP, buffer, 1);
+   00C5 90s00r00            760 	mov	dptr,#_rf_write_register_PARM_2
+   00C8 74r1D               761 	mov	a,#_rf_configure_buffer_1_1
+   00CA F0                  762 	movx	@dptr,a
+   00CB A3                  763 	inc	dptr
+   00CC 74s00               764 	mov	a,#(_rf_configure_buffer_1_1 >> 8)
+   00CE F0                  765 	movx	@dptr,a
+   00CF A3                  766 	inc	dptr
+   00D0 E4                  767 	clr	a
+   00D1 F0                  768 	movx	@dptr,a
+   00D2 90s00r00            769 	mov	dptr,#_rf_write_register_PARM_3
+   00D5 74 01               770 	mov	a,#0x01
+   00D7 F0                  771 	movx	@dptr,a
+   00D8 E4                  772 	clr	a
+   00D9 A3                  773 	inc	dptr
+   00DA F0                  774 	movx	@dptr,a
+   00DB 75 82 06            775 	mov	dpl,#0x06
+   00DE 12s00r00            776 	lcall	_rf_write_register
+                            777 ;	src/rf_configure.c:137: if(rx_addr_p0 != NULL)
+   00E1 90s00r07            778 	mov	dptr,#_rf_configure_PARM_9
+   00E4 E0                  779 	movx	a,@dptr
+   00E5 FA                  780 	mov	r2,a
+   00E6 A3                  781 	inc	dptr
+   00E7 E0                  782 	movx	a,@dptr
+   00E8 FB                  783 	mov	r3,a
+   00E9 A3                  784 	inc	dptr
+   00EA E0                  785 	movx	a,@dptr
+   00EB FC                  786 	mov	r4,a
+   00EC BA 00 08            787 	cjne	r2,#0x00,00119$
+   00EF BB 00 05            788 	cjne	r3,#0x00,00119$
+   00F2 BC 00 02            789 	cjne	r4,#0x00,00119$
+   00F5 80 19               790 	sjmp	00102$
+   00F7                     791 00119$:
+                            792 ;	src/rf_configure.c:139: rf_set_rx_addr(rx_addr_p0, 5, 0);
+   00F7 90s00r00            793 	mov	dptr,#_rf_set_rx_addr_PARM_2
+   00FA 74 05               794 	mov	a,#0x05
+   00FC F0                  795 	movx	@dptr,a
+   00FD E4                  796 	clr	a
+   00FE A3                  797 	inc	dptr
+   00FF F0                  798 	movx	@dptr,a
+   0100 90s00r00            799 	mov	dptr,#_rf_set_rx_addr_PARM_3
+   0103 E4                  800 	clr	a
+   0104 F0                  801 	movx	@dptr,a
+   0105 8A 82               802 	mov	dpl,r2
+   0107 8B 83               803 	mov	dph,r3
+   0109 8C F0               804 	mov	b,r4
+   010B 12s00r00            805 	lcall	_rf_set_rx_addr
+   010E 80 35               806 	sjmp	00103$
+   0110                     807 00102$:
+                            808 ;	src/rf_configure.c:143: buffer[0] = RF_RX_ADDR_P0_B0_DEFAULT_VAL;
+   0110 90s00r1D            809 	mov	dptr,#_rf_configure_buffer_1_1
+   0113 74 E7               810 	mov	a,#0xE7
+   0115 F0                  811 	movx	@dptr,a
+                            812 ;	src/rf_configure.c:144: buffer[1] = RF_RX_ADDR_P0_B1_DEFAULT_VAL;
+   0116 90s00r1E            813 	mov	dptr,#(_rf_configure_buffer_1_1 + 0x0001)
+   0119 74 E7               814 	mov	a,#0xE7
+   011B F0                  815 	movx	@dptr,a
+                            816 ;	src/rf_configure.c:145: buffer[2] = RF_RX_ADDR_P0_B2_DEFAULT_VAL;
+   011C 90s00r1F            817 	mov	dptr,#(_rf_configure_buffer_1_1 + 0x0002)
+   011F 74 E7               818 	mov	a,#0xE7
+   0121 F0                  819 	movx	@dptr,a
+                            820 ;	src/rf_configure.c:146: buffer[3] = RF_RX_ADDR_P0_B3_DEFAULT_VAL;
+   0122 90s00r20            821 	mov	dptr,#(_rf_configure_buffer_1_1 + 0x0003)
+   0125 74 E7               822 	mov	a,#0xE7
+   0127 F0                  823 	movx	@dptr,a
+                            824 ;	src/rf_configure.c:147: buffer[4] = RF_RX_ADDR_P0_B4_DEFAULT_VAL;
+   0128 90s00r21            825 	mov	dptr,#(_rf_configure_buffer_1_1 + 0x0004)
+   012B 74 E7               826 	mov	a,#0xE7
+   012D F0                  827 	movx	@dptr,a
+                            828 ;	src/rf_configure.c:149: rf_set_rx_addr(buffer, 5, 0);
+   012E 90s00r00            829 	mov	dptr,#_rf_set_rx_addr_PARM_2
+   0131 74 05               830 	mov	a,#0x05
+   0133 F0                  831 	movx	@dptr,a
+   0134 E4                  832 	clr	a
+   0135 A3                  833 	inc	dptr
+   0136 F0                  834 	movx	@dptr,a
+   0137 90s00r00            835 	mov	dptr,#_rf_set_rx_addr_PARM_3
+   013A E4                  836 	clr	a
+   013B F0                  837 	movx	@dptr,a
+   013C 90s00r1D            838 	mov	dptr,#_rf_configure_buffer_1_1
+   013F 75 F0 00            839 	mov	b,#0x00
+   0142 12s00r00            840 	lcall	_rf_set_rx_addr
+   0145                     841 00103$:
+                            842 ;	src/rf_configure.c:153: if(rx_addr_p1 != NULL)
+   0145 90s00r0A            843 	mov	dptr,#_rf_configure_PARM_10
+   0148 E0                  844 	movx	a,@dptr
+   0149 FA                  845 	mov	r2,a
+   014A A3                  846 	inc	dptr
+   014B E0                  847 	movx	a,@dptr
+   014C FB                  848 	mov	r3,a
+   014D A3                  849 	inc	dptr
+   014E E0                  850 	movx	a,@dptr
+   014F FC                  851 	mov	r4,a
+   0150 BA 00 08            852 	cjne	r2,#0x00,00120$
+   0153 BB 00 05            853 	cjne	r3,#0x00,00120$
+   0156 BC 00 02            854 	cjne	r4,#0x00,00120$
+   0159 80 1A               855 	sjmp	00105$
+   015B                     856 00120$:
+                            857 ;	src/rf_configure.c:155: rf_set_rx_addr(rx_addr_p1, 5, 1);
+   015B 90s00r00            858 	mov	dptr,#_rf_set_rx_addr_PARM_2
+   015E 74 05               859 	mov	a,#0x05
+   0160 F0                  860 	movx	@dptr,a
+   0161 E4                  861 	clr	a
+   0162 A3                  862 	inc	dptr
+   0163 F0                  863 	movx	@dptr,a
+   0164 90s00r00            864 	mov	dptr,#_rf_set_rx_addr_PARM_3
+   0167 74 01               865 	mov	a,#0x01
+   0169 F0                  866 	movx	@dptr,a
+   016A 8A 82               867 	mov	dpl,r2
+   016C 8B 83               868 	mov	dph,r3
+   016E 8C F0               869 	mov	b,r4
+   0170 12s00r00            870 	lcall	_rf_set_rx_addr
+   0173 80 36               871 	sjmp	00106$
+   0175                     872 00105$:
+                            873 ;	src/rf_configure.c:159: buffer[0] = RF_RX_ADDR_P1_B0_DEFAULT_VAL;
+   0175 90s00r1D            874 	mov	dptr,#_rf_configure_buffer_1_1
+   0178 74 C2               875 	mov	a,#0xC2
+   017A F0                  876 	movx	@dptr,a
+                            877 ;	src/rf_configure.c:160: buffer[1] = RF_RX_ADDR_P1_B1_DEFAULT_VAL;
+   017B 90s00r1E            878 	mov	dptr,#(_rf_configure_buffer_1_1 + 0x0001)
+   017E 74 C2               879 	mov	a,#0xC2
+   0180 F0                  880 	movx	@dptr,a
+                            881 ;	src/rf_configure.c:161: buffer[2] = RF_RX_ADDR_P1_B2_DEFAULT_VAL;
+   0181 90s00r1F            882 	mov	dptr,#(_rf_configure_buffer_1_1 + 0x0002)
+   0184 74 C2               883 	mov	a,#0xC2
+   0186 F0                  884 	movx	@dptr,a
+                            885 ;	src/rf_configure.c:162: buffer[3] = RF_RX_ADDR_P1_B3_DEFAULT_VAL;
+   0187 90s00r20            886 	mov	dptr,#(_rf_configure_buffer_1_1 + 0x0003)
+   018A 74 C2               887 	mov	a,#0xC2
+   018C F0                  888 	movx	@dptr,a
+                            889 ;	src/rf_configure.c:163: buffer[4] = RF_RX_ADDR_P1_B4_DEFAULT_VAL;
+   018D 90s00r21            890 	mov	dptr,#(_rf_configure_buffer_1_1 + 0x0004)
+   0190 74 C2               891 	mov	a,#0xC2
+   0192 F0                  892 	movx	@dptr,a
+                            893 ;	src/rf_configure.c:165: rf_set_rx_addr(buffer, 5, 1);
+   0193 90s00r00            894 	mov	dptr,#_rf_set_rx_addr_PARM_2
+   0196 74 05               895 	mov	a,#0x05
+   0198 F0                  896 	movx	@dptr,a
+   0199 E4                  897 	clr	a
+   019A A3                  898 	inc	dptr
+   019B F0                  899 	movx	@dptr,a
+   019C 90s00r00            900 	mov	dptr,#_rf_set_rx_addr_PARM_3
+   019F 74 01               901 	mov	a,#0x01
+   01A1 F0                  902 	movx	@dptr,a
+   01A2 90s00r1D            903 	mov	dptr,#_rf_configure_buffer_1_1
+   01A5 75 F0 00            904 	mov	b,#0x00
+   01A8 12s00r00            905 	lcall	_rf_set_rx_addr
+   01AB                     906 00106$:
+                            907 ;	src/rf_configure.c:168: buffer[0] = rx_addr_p2;
+   01AB 90s00r0D            908 	mov	dptr,#_rf_configure_PARM_11
+   01AE E0                  909 	movx	a,@dptr
+   01AF 90s00r1D            910 	mov	dptr,#_rf_configure_buffer_1_1
+   01B2 F0                  911 	movx	@dptr,a
+                            912 ;	src/rf_configure.c:169: rf_set_rx_addr(buffer, 1, 2);
+   01B3 90s00r00            913 	mov	dptr,#_rf_set_rx_addr_PARM_2
+   01B6 74 01               914 	mov	a,#0x01
+   01B8 F0                  915 	movx	@dptr,a
+   01B9 E4                  916 	clr	a
+   01BA A3                  917 	inc	dptr
+   01BB F0                  918 	movx	@dptr,a
+   01BC 90s00r00            919 	mov	dptr,#_rf_set_rx_addr_PARM_3
+   01BF 74 02               920 	mov	a,#0x02
+   01C1 F0                  921 	movx	@dptr,a
+   01C2 90s00r1D            922 	mov	dptr,#_rf_configure_buffer_1_1
+   01C5 75 F0 00            923 	mov	b,#0x00
+   01C8 12s00r00            924 	lcall	_rf_set_rx_addr
+                            925 ;	src/rf_configure.c:171: buffer[0] = rx_addr_p3;
+   01CB 90s00r0E            926 	mov	dptr,#_rf_configure_PARM_12
+   01CE E0                  927 	movx	a,@dptr
+   01CF 90s00r1D            928 	mov	dptr,#_rf_configure_buffer_1_1
+   01D2 F0                  929 	movx	@dptr,a
+                            930 ;	src/rf_configure.c:172: rf_set_rx_addr(buffer, 1, 3);
+   01D3 90s00r00            931 	mov	dptr,#_rf_set_rx_addr_PARM_2
+   01D6 74 01               932 	mov	a,#0x01
+   01D8 F0                  933 	movx	@dptr,a
+   01D9 E4                  934 	clr	a
+   01DA A3                  935 	inc	dptr
+   01DB F0                  936 	movx	@dptr,a
+   01DC 90s00r00            937 	mov	dptr,#_rf_set_rx_addr_PARM_3
+   01DF 74 03               938 	mov	a,#0x03
+   01E1 F0                  939 	movx	@dptr,a
+   01E2 90s00r1D            940 	mov	dptr,#_rf_configure_buffer_1_1
+   01E5 75 F0 00            941 	mov	b,#0x00
+   01E8 12s00r00            942 	lcall	_rf_set_rx_addr
+                            943 ;	src/rf_configure.c:174: buffer[0] = rx_addr_p4;
+   01EB 90s00r0F            944 	mov	dptr,#_rf_configure_PARM_13
+   01EE E0                  945 	movx	a,@dptr
+   01EF 90s00r1D            946 	mov	dptr,#_rf_configure_buffer_1_1
+   01F2 F0                  947 	movx	@dptr,a
+                            948 ;	src/rf_configure.c:175: rf_set_rx_addr(buffer, 1, 4);
+   01F3 90s00r00            949 	mov	dptr,#_rf_set_rx_addr_PARM_2
+   01F6 74 01               950 	mov	a,#0x01
+   01F8 F0                  951 	movx	@dptr,a
+   01F9 E4                  952 	clr	a
+   01FA A3                  953 	inc	dptr
+   01FB F0                  954 	movx	@dptr,a
+   01FC 90s00r00            955 	mov	dptr,#_rf_set_rx_addr_PARM_3
+   01FF 74 04               956 	mov	a,#0x04
+   0201 F0                  957 	movx	@dptr,a
+   0202 90s00r1D            958 	mov	dptr,#_rf_configure_buffer_1_1
+   0205 75 F0 00            959 	mov	b,#0x00
+   0208 12s00r00            960 	lcall	_rf_set_rx_addr
+                            961 ;	src/rf_configure.c:177: buffer[0] = rx_addr_p5;
+   020B 90s00r10            962 	mov	dptr,#_rf_configure_PARM_14
+   020E E0                  963 	movx	a,@dptr
+   020F 90s00r1D            964 	mov	dptr,#_rf_configure_buffer_1_1
+   0212 F0                  965 	movx	@dptr,a
+                            966 ;	src/rf_configure.c:178: rf_set_rx_addr(buffer, 1, 5);
+   0213 90s00r00            967 	mov	dptr,#_rf_set_rx_addr_PARM_2
+   0216 74 01               968 	mov	a,#0x01
+   0218 F0                  969 	movx	@dptr,a
+   0219 E4                  970 	clr	a
+   021A A3                  971 	inc	dptr
+   021B F0                  972 	movx	@dptr,a
+   021C 90s00r00            973 	mov	dptr,#_rf_set_rx_addr_PARM_3
+   021F 74 05               974 	mov	a,#0x05
+   0221 F0                  975 	movx	@dptr,a
+   0222 90s00r1D            976 	mov	dptr,#_rf_configure_buffer_1_1
+   0225 75 F0 00            977 	mov	b,#0x00
+   0228 12s00r00            978 	lcall	_rf_set_rx_addr
+                            979 ;	src/rf_configure.c:181: if(tx_addr != NULL)
+   022B 90s00r11            980 	mov	dptr,#_rf_configure_PARM_15
+   022E E0                  981 	movx	a,@dptr
+   022F FA                  982 	mov	r2,a
+   0230 A3                  983 	inc	dptr
+   0231 E0                  984 	movx	a,@dptr
+   0232 FB                  985 	mov	r3,a
+   0233 A3                  986 	inc	dptr
+   0234 E0                  987 	movx	a,@dptr
+   0235 FC                  988 	mov	r4,a
+   0236 BA 00 08            989 	cjne	r2,#0x00,00121$
+   0239 BB 00 05            990 	cjne	r3,#0x00,00121$
+   023C BC 00 02            991 	cjne	r4,#0x00,00121$
+   023F 80 14               992 	sjmp	00108$
+   0241                     993 00121$:
+                            994 ;	src/rf_configure.c:183: rf_set_tx_addr(tx_addr, 5);
+   0241 90s00r00            995 	mov	dptr,#_rf_set_tx_addr_PARM_2
+   0244 74 05               996 	mov	a,#0x05
+   0246 F0                  997 	movx	@dptr,a
+   0247 E4                  998 	clr	a
+   0248 A3                  999 	inc	dptr
+   0249 F0                 1000 	movx	@dptr,a
+   024A 8A 82              1001 	mov	dpl,r2
+   024C 8B 83              1002 	mov	dph,r3
+   024E 8C F0              1003 	mov	b,r4
+   0250 12s00r00           1004 	lcall	_rf_set_tx_addr
+   0253 80 30              1005 	sjmp	00109$
+   0255                    1006 00108$:
+                           1007 ;	src/rf_configure.c:187: buffer[0] = RF_TX_ADDR_B0_DEFAULT_VAL;
+   0255 90s00r1D           1008 	mov	dptr,#_rf_configure_buffer_1_1
+   0258 74 E7              1009 	mov	a,#0xE7
+   025A F0                 1010 	movx	@dptr,a
+                           1011 ;	src/rf_configure.c:188: buffer[1] = RF_TX_ADDR_B1_DEFAULT_VAL;
+   025B 90s00r1E           1012 	mov	dptr,#(_rf_configure_buffer_1_1 + 0x0001)
+   025E 74 E7              1013 	mov	a,#0xE7
+   0260 F0                 1014 	movx	@dptr,a
+                           1015 ;	src/rf_configure.c:189: buffer[2] = RF_TX_ADDR_B2_DEFAULT_VAL;
+   0261 90s00r1F           1016 	mov	dptr,#(_rf_configure_buffer_1_1 + 0x0002)
+   0264 74 E7              1017 	mov	a,#0xE7
+   0266 F0                 1018 	movx	@dptr,a
+                           1019 ;	src/rf_configure.c:190: buffer[3] = RF_TX_ADDR_B3_DEFAULT_VAL;
+   0267 90s00r20           1020 	mov	dptr,#(_rf_configure_buffer_1_1 + 0x0003)
+   026A 74 E7              1021 	mov	a,#0xE7
+   026C F0                 1022 	movx	@dptr,a
+                           1023 ;	src/rf_configure.c:191: buffer[4] = RF_TX_ADDR_B4_DEFAULT_VAL;
+   026D 90s00r21           1024 	mov	dptr,#(_rf_configure_buffer_1_1 + 0x0004)
+   0270 74 E7              1025 	mov	a,#0xE7
+   0272 F0                 1026 	movx	@dptr,a
+                           1027 ;	src/rf_configure.c:193: rf_set_tx_addr(buffer, 5);
+   0273 90s00r00           1028 	mov	dptr,#_rf_set_tx_addr_PARM_2
+   0276 74 05              1029 	mov	a,#0x05
+   0278 F0                 1030 	movx	@dptr,a
+   0279 E4                 1031 	clr	a
+   027A A3                 1032 	inc	dptr
+   027B F0                 1033 	movx	@dptr,a
+   027C 90s00r1D           1034 	mov	dptr,#_rf_configure_buffer_1_1
+   027F 75 F0 00           1035 	mov	b,#0x00
+   0282 12s00r00           1036 	lcall	_rf_set_tx_addr
+   0285                    1037 00109$:
+                           1038 ;	src/rf_configure.c:196: buffer[0] = rx_pw_p0;
+   0285 90s00r14           1039 	mov	dptr,#_rf_configure_PARM_16
+   0288 E0                 1040 	movx	a,@dptr
+   0289 90s00r1D           1041 	mov	dptr,#_rf_configure_buffer_1_1
+   028C F0                 1042 	movx	@dptr,a
+                           1043 ;	src/rf_configure.c:197: rf_write_register(RF_RX_PW_P0, buffer, 1);
+   028D 90s00r00           1044 	mov	dptr,#_rf_write_register_PARM_2
+   0290 74r1D              1045 	mov	a,#_rf_configure_buffer_1_1
+   0292 F0                 1046 	movx	@dptr,a
+   0293 A3                 1047 	inc	dptr
+   0294 74s00              1048 	mov	a,#(_rf_configure_buffer_1_1 >> 8)
+   0296 F0                 1049 	movx	@dptr,a
+   0297 A3                 1050 	inc	dptr
+   0298 E4                 1051 	clr	a
+   0299 F0                 1052 	movx	@dptr,a
+   029A 90s00r00           1053 	mov	dptr,#_rf_write_register_PARM_3
+   029D 74 01              1054 	mov	a,#0x01
+   029F F0                 1055 	movx	@dptr,a
+   02A0 E4                 1056 	clr	a
+   02A1 A3                 1057 	inc	dptr
+   02A2 F0                 1058 	movx	@dptr,a
+   02A3 75 82 11           1059 	mov	dpl,#0x11
+   02A6 12s00r00           1060 	lcall	_rf_write_register
+                           1061 ;	src/rf_configure.c:199: buffer[0] = rx_pw_p1;
+   02A9 90s00r15           1062 	mov	dptr,#_rf_configure_PARM_17
+   02AC E0                 1063 	movx	a,@dptr
+   02AD 90s00r1D           1064 	mov	dptr,#_rf_configure_buffer_1_1
+   02B0 F0                 1065 	movx	@dptr,a
+                           1066 ;	src/rf_configure.c:200: rf_write_register(RF_RX_PW_P1, buffer, 1);
+   02B1 90s00r00           1067 	mov	dptr,#_rf_write_register_PARM_2
+   02B4 74r1D              1068 	mov	a,#_rf_configure_buffer_1_1
+   02B6 F0                 1069 	movx	@dptr,a
+   02B7 A3                 1070 	inc	dptr
+   02B8 74s00              1071 	mov	a,#(_rf_configure_buffer_1_1 >> 8)
+   02BA F0                 1072 	movx	@dptr,a
+   02BB A3                 1073 	inc	dptr
+   02BC E4                 1074 	clr	a
+   02BD F0                 1075 	movx	@dptr,a
+   02BE 90s00r00           1076 	mov	dptr,#_rf_write_register_PARM_3
+   02C1 74 01              1077 	mov	a,#0x01
+   02C3 F0                 1078 	movx	@dptr,a
+   02C4 E4                 1079 	clr	a
+   02C5 A3                 1080 	inc	dptr
+   02C6 F0                 1081 	movx	@dptr,a
+   02C7 75 82 12           1082 	mov	dpl,#0x12
+   02CA 12s00r00           1083 	lcall	_rf_write_register
+                           1084 ;	src/rf_configure.c:202: buffer[0] = rx_pw_p2;
+   02CD 90s00r16           1085 	mov	dptr,#_rf_configure_PARM_18
+   02D0 E0                 1086 	movx	a,@dptr
+   02D1 90s00r1D           1087 	mov	dptr,#_rf_configure_buffer_1_1
+   02D4 F0                 1088 	movx	@dptr,a
+                           1089 ;	src/rf_configure.c:203: rf_write_register(RF_RX_PW_P2, buffer, 1);
+   02D5 90s00r00           1090 	mov	dptr,#_rf_write_register_PARM_2
+   02D8 74r1D              1091 	mov	a,#_rf_configure_buffer_1_1
+   02DA F0                 1092 	movx	@dptr,a
+   02DB A3                 1093 	inc	dptr
+   02DC 74s00              1094 	mov	a,#(_rf_configure_buffer_1_1 >> 8)
+   02DE F0                 1095 	movx	@dptr,a
+   02DF A3                 1096 	inc	dptr
+   02E0 E4                 1097 	clr	a
+   02E1 F0                 1098 	movx	@dptr,a
+   02E2 90s00r00           1099 	mov	dptr,#_rf_write_register_PARM_3
+   02E5 74 01              1100 	mov	a,#0x01
+   02E7 F0                 1101 	movx	@dptr,a
+   02E8 E4                 1102 	clr	a
+   02E9 A3                 1103 	inc	dptr
+   02EA F0                 1104 	movx	@dptr,a
+   02EB 75 82 13           1105 	mov	dpl,#0x13
+   02EE 12s00r00           1106 	lcall	_rf_write_register
+                           1107 ;	src/rf_configure.c:205: buffer[0] = rx_pw_p3;
+   02F1 90s00r17           1108 	mov	dptr,#_rf_configure_PARM_19
+   02F4 E0                 1109 	movx	a,@dptr
+   02F5 90s00r1D           1110 	mov	dptr,#_rf_configure_buffer_1_1
+   02F8 F0                 1111 	movx	@dptr,a
+                           1112 ;	src/rf_configure.c:206: rf_write_register(RF_RX_PW_P3, buffer, 1);
+   02F9 90s00r00           1113 	mov	dptr,#_rf_write_register_PARM_2
+   02FC 74r1D              1114 	mov	a,#_rf_configure_buffer_1_1
+   02FE F0                 1115 	movx	@dptr,a
+   02FF A3                 1116 	inc	dptr
+   0300 74s00              1117 	mov	a,#(_rf_configure_buffer_1_1 >> 8)
+   0302 F0                 1118 	movx	@dptr,a
+   0303 A3                 1119 	inc	dptr
+   0304 E4                 1120 	clr	a
+   0305 F0                 1121 	movx	@dptr,a
+   0306 90s00r00           1122 	mov	dptr,#_rf_write_register_PARM_3
+   0309 74 01              1123 	mov	a,#0x01
+   030B F0                 1124 	movx	@dptr,a
+   030C E4                 1125 	clr	a
+   030D A3                 1126 	inc	dptr
+   030E F0                 1127 	movx	@dptr,a
+   030F 75 82 14           1128 	mov	dpl,#0x14
+   0312 12s00r00           1129 	lcall	_rf_write_register
+                           1130 ;	src/rf_configure.c:208: buffer[0] = rx_pw_p4;
+   0315 90s00r18           1131 	mov	dptr,#_rf_configure_PARM_20
+   0318 E0                 1132 	movx	a,@dptr
+   0319 90s00r1D           1133 	mov	dptr,#_rf_configure_buffer_1_1
+   031C F0                 1134 	movx	@dptr,a
+                           1135 ;	src/rf_configure.c:209: rf_write_register(RF_RX_PW_P4, buffer, 1);
+   031D 90s00r00           1136 	mov	dptr,#_rf_write_register_PARM_2
+   0320 74r1D              1137 	mov	a,#_rf_configure_buffer_1_1
+   0322 F0                 1138 	movx	@dptr,a
+   0323 A3                 1139 	inc	dptr
+   0324 74s00              1140 	mov	a,#(_rf_configure_buffer_1_1 >> 8)
+   0326 F0                 1141 	movx	@dptr,a
+   0327 A3                 1142 	inc	dptr
+   0328 E4                 1143 	clr	a
+   0329 F0                 1144 	movx	@dptr,a
+   032A 90s00r00           1145 	mov	dptr,#_rf_write_register_PARM_3
+   032D 74 01              1146 	mov	a,#0x01
+   032F F0                 1147 	movx	@dptr,a
+   0330 E4                 1148 	clr	a
+   0331 A3                 1149 	inc	dptr
+   0332 F0                 1150 	movx	@dptr,a
+   0333 75 82 15           1151 	mov	dpl,#0x15
+   0336 12s00r00           1152 	lcall	_rf_write_register
+                           1153 ;	src/rf_configure.c:211: buffer[0] = rx_pw_p5;
+   0339 90s00r19           1154 	mov	dptr,#_rf_configure_PARM_21
+   033C E0                 1155 	movx	a,@dptr
+   033D 90s00r1D           1156 	mov	dptr,#_rf_configure_buffer_1_1
+   0340 F0                 1157 	movx	@dptr,a
+                           1158 ;	src/rf_configure.c:212: rf_write_register(RF_RX_PW_P5, buffer, 1);
+   0341 90s00r00           1159 	mov	dptr,#_rf_write_register_PARM_2
+   0344 74r1D              1160 	mov	a,#_rf_configure_buffer_1_1
+   0346 F0                 1161 	movx	@dptr,a
+   0347 A3                 1162 	inc	dptr
+   0348 74s00              1163 	mov	a,#(_rf_configure_buffer_1_1 >> 8)
+   034A F0                 1164 	movx	@dptr,a
+   034B A3                 1165 	inc	dptr
+   034C E4                 1166 	clr	a
+   034D F0                 1167 	movx	@dptr,a
+   034E 90s00r00           1168 	mov	dptr,#_rf_write_register_PARM_3
+   0351 74 01              1169 	mov	a,#0x01
+   0353 F0                 1170 	movx	@dptr,a
+   0354 E4                 1171 	clr	a
+   0355 A3                 1172 	inc	dptr
+   0356 F0                 1173 	movx	@dptr,a
+   0357 75 82 16           1174 	mov	dpl,#0x16
+   035A 12s00r00           1175 	lcall	_rf_write_register
+                           1176 ;	src/rf_configure.c:214: buffer[0] = dynpd;
+   035D 90s00r1A           1177 	mov	dptr,#_rf_configure_PARM_22
+   0360 E0                 1178 	movx	a,@dptr
+   0361 90s00r1D           1179 	mov	dptr,#_rf_configure_buffer_1_1
+   0364 F0                 1180 	movx	@dptr,a
+                           1181 ;	src/rf_configure.c:215: rf_write_register(RF_DYNPD, buffer, 1);
+   0365 90s00r00           1182 	mov	dptr,#_rf_write_register_PARM_2
+   0368 74r1D              1183 	mov	a,#_rf_configure_buffer_1_1
+   036A F0                 1184 	movx	@dptr,a
+   036B A3                 1185 	inc	dptr
+   036C 74s00              1186 	mov	a,#(_rf_configure_buffer_1_1 >> 8)
+   036E F0                 1187 	movx	@dptr,a
+   036F A3                 1188 	inc	dptr
+   0370 E4                 1189 	clr	a
+   0371 F0                 1190 	movx	@dptr,a
+   0372 90s00r00           1191 	mov	dptr,#_rf_write_register_PARM_3
+   0375 74 01              1192 	mov	a,#0x01
+   0377 F0                 1193 	movx	@dptr,a
+   0378 E4                 1194 	clr	a
+   0379 A3                 1195 	inc	dptr
+   037A F0                 1196 	movx	@dptr,a
+   037B 75 82 1C           1197 	mov	dpl,#0x1C
+   037E 12s00r00           1198 	lcall	_rf_write_register
+                           1199 ;	src/rf_configure.c:217: buffer[0] = feature;
+   0381 90s00r1B           1200 	mov	dptr,#_rf_configure_PARM_23
+   0384 E0                 1201 	movx	a,@dptr
+   0385 90s00r1D           1202 	mov	dptr,#_rf_configure_buffer_1_1
+   0388 F0                 1203 	movx	@dptr,a
+                           1204 ;	src/rf_configure.c:218: rf_write_register(RF_FEATURE, buffer, 1);
+   0389 90s00r00           1205 	mov	dptr,#_rf_write_register_PARM_2
+   038C 74r1D              1206 	mov	a,#_rf_configure_buffer_1_1
+   038E F0                 1207 	movx	@dptr,a
+   038F A3                 1208 	inc	dptr
+   0390 74s00              1209 	mov	a,#(_rf_configure_buffer_1_1 >> 8)
+   0392 F0                 1210 	movx	@dptr,a
+   0393 A3                 1211 	inc	dptr
+   0394 E4                 1212 	clr	a
+   0395 F0                 1213 	movx	@dptr,a
+   0396 90s00r00           1214 	mov	dptr,#_rf_write_register_PARM_3
+   0399 74 01              1215 	mov	a,#0x01
+   039B F0                 1216 	movx	@dptr,a
+   039C E4                 1217 	clr	a
+   039D A3                 1218 	inc	dptr
+   039E F0                 1219 	movx	@dptr,a
+   039F 75 82 1D           1220 	mov	dpl,#0x1D
+   03A2 12s00r00           1221 	lcall	_rf_write_register
+                           1222 ;	src/rf_configure.c:221: if((config & RF_CONFIG_PWR_UP) != 0)
+   03A5 90s00r1C           1223 	mov	dptr,#_rf_configure_config_1_1
+   03A8 E0                 1224 	movx	a,@dptr
+   03A9 FA                 1225 	mov	r2,a
+   03AA 30 E1 0F           1226 	jnb	acc.1,00111$
+                           1227 ;	src/rf_configure.c:223: rf_power_up_param(opt_rx_active_mode, config);
+   03AD 90s00r00           1228 	mov	dptr,#_rf_configure_PARM_2
+   03B0 E0                 1229 	movx	a,@dptr
+   03B1 FB                 1230 	mov	r3,a
+   03B2 90s00r00           1231 	mov	dptr,#_rf_power_up_param_PARM_2
+   03B5 EA                 1232 	mov	a,r2
+   03B6 F0                 1233 	movx	@dptr,a
+   03B7 8B 82              1234 	mov	dpl,r3
+   03B9 02s00r00           1235 	ljmp	_rf_power_up_param
+   03BC                    1236 00111$:
+                           1237 ;	src/rf_configure.c:227: rf_power_down_param(config);
+   03BC 8A 82              1238 	mov	dpl,r2
+   03BE 02s00r00           1239 	ljmp	_rf_power_down_param
+                           1240 	.area CSEG    (CODE)
+                           1241 	.area CONST   (CODE)
+                           1242 	.area XINIT   (CODE)
+                           1243 	.area CABS    (ABS,CODE)
